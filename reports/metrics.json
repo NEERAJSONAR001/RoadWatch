@@ -1,0 +1,100 @@
+{
+  "created_at": "2026-11-14T12:09:25+05:30",
+  "model": "Ultralytics yolov8n (COCO-pretrained fine-tuning)",
+  "model_weights": "yolov8n.pt",
+  "experiment_id": "yolov8n",
+  "weights": "runs\\roadwatch-yolov8n-20261114-004822\\weights\\best.pt",
+  "epochs": 5,
+  "image_size": 416,
+  "device": "CPU",
+  "seed": 42,
+  "evaluation_split": "official test split",
+  "confidence_threshold": 0.25,
+  "iou_threshold": 0.5,
+  "map50": 0.5367282931858046,
+  "map50_95": 0.2814223532001929,
+  "test_inference_images_per_second": 10.4073255974444,
+  "test_error_counts": {
+    "tp": 88,
+    "fp": 50,
+    "fn": 115,
+    "ground_truth": 203,
+    "predictions": 138
+  },
+  "test_images": 79,
+  "dataset": {
+    "dataset_id": "manot/pothole-segmentation",
+    "source_url": "https://huggingface.co/datasets/manot/pothole-segmentation",
+    "license": "CC BY 4.0",
+    "class_mapping": {
+      "pothole": "pothole",
+      "potholes": "pothole",
+      "object": "ignored (not a pothole class)"
+    },
+    "splits": {
+      "train": {
+        "source_images": 582,
+        "source_pothole_boxes": 1499,
+        "source_images_without_potholes": 5,
+        "ignored_annotations": {
+          "object": 3
+        },
+        "invalid_boxes_skipped": 0,
+        "images": 507,
+        "pothole_boxes": 1306,
+        "images_without_potholes": 4,
+        "duplicate_images_removed": 75
+      },
+      "val": {
+        "source_images": 157,
+        "source_pothole_boxes": 405,
+        "source_images_without_potholes": 4,
+        "ignored_annotations": {
+          "object": 2
+        },
+        "invalid_boxes_skipped": 0,
+        "images": 149,
+        "pothole_boxes": 397,
+        "images_without_potholes": 3,
+        "duplicate_images_removed": 8
+      },
+      "test": {
+        "source_images": 80,
+        "source_pothole_boxes": 204,
+        "source_images_without_potholes": 2,
+        "ignored_annotations": {
+          "object": 1
+        },
+        "invalid_boxes_skipped": 0,
+        "images": 79,
+        "pothole_boxes": 203,
+        "images_without_potholes": 2,
+        "duplicate_images_removed": 1
+      }
+    },
+    "deduplication": {
+      "method": "SHA-256 of exact image bytes; test takes precedence over validation, then training",
+      "duplicate_groups_found": 84,
+      "cross_split_duplicate_groups": 40,
+      "duplicate_images_removed": 84,
+      "removed_by_split": {
+        "train": 75,
+        "val": 8,
+        "test": 1
+      }
+    }
+  },
+  "errors_csv": "reports\\test_error_analysis_yolov8n.csv",
+  "analysis_plot": "reports/results_analysis_yolov8n.png",
+  "precision": 0.6376811594202898,
+  "recall": 0.43349753694581283,
+  "f1": 0.5161290322580645,
+  "validation": {
+    "split": "validation",
+    "precision": 0.6334383330508816,
+    "recall": 0.6196473551637279,
+    "map50": 0.6267627515296555,
+    "map50_95": 0.3507185125177519
+  },
+  "model_selection_metric": "validation mAP@0.5 (higher is better)"
+}

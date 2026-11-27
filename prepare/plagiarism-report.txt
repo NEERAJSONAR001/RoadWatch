@@ -1,0 +1,2447 @@
+Plagiarism Checker Report
+Scan type: Normal Scan
+Match sensitivity: 80%
+Overall Match: 50.3%
+Checked coverage: 7.75%
+Checked passages: 20 of 258
+Unchecked passages: 238
+Sampled similarity only: 20 of 258 text chunks checked against web search snippets; 238 chunks were not checked. Overall Match is the average similarity of checked passages, not a document-level plagiarism verdict.
+
+Original text:
+HSNC UNIVERSITY, MUMBAI
+
+KISHINCHAND CHELLARAM COLLEGE
+
+Churchgate, Mumbai - 400 020
+
+DEPARTMENT OF COMPUTER SCIENCE
+
+Research Project
+
+On
+
+RoadWatch: An Intelligent Framework for Pothole Detection, Severity Assessment and Repair Prioritisation Using Deep Learning
+
+
+
+Submitted By
+
+Neeraj Sonar - 26KFMSCCS26
+
+Under the guidance of
+
+Dr. Geeta N. Brijwani
+
+Submitted in partial fulfillment of the requirement for 
+
+qualifying MSc. Computer Science Semester III Examination A.Y. November 2026-2027
+
+
+
+HSNC UNIVERSITY, MUMBAI
+
+KISHINCHAND CHELLARAM COLLEGE
+
+Churchgate, Mumbai - 400 020
+
+CERTIFICATE
+
+This is to certify that Mr. Neeraj Sonar (26KFMSCCS26), of M.Sc. Computer Science, has completed the Semester III research and prototype phase of the Research Project entitled RoadWatch: AI-Assisted Pothole Detection, Severity Scoring and Repair Prioritisation Uising Deep Learning in partial fulfilment of the requirements of the M.Sc. Computer Science degree at HSNC University, Mumbai, for the academic year 2026–2027.
+
+It is further certified that this project had not been submitted for any other examination and does not form part of any other course undergone by the candidate.
+
+Dr. Geeta N. Brijwani
+
+Signature of
+
+Dr. S. B. Muley
+
+Project Guide
+
+External Examiner
+
+Head, Dept. ofComputer Science
+
+
+
+Date of Exam__________________                    Examined By________________
+
+
+
+ACKNOWLEDGEMENT
+
+I take this opportunity to express my heartfelt gratitude to all the individuals for their invaluable support and encouragement throughout the course of this research investigation.
+
+I am deeply thankful to Dr. Hemlata K. Bagla, Vice Chancellor of HSNC University, Mumbai for providing me with the opportunity to pursue my postgraduate studies at this esteemed institution.
+
+I extend my sincere gratitude to Dr. Tejashree V. Shanbhag, Principal of Kishinchand Chellaram College, Mumbai, for generously providing all academic resources and unwavering support.
+
+My gratitude also goes to Dr. S. B. Muley, Head, Department of Computer Science, for his constant guidance and encouragement.
+
+I am deeply indebted to my project guide Dr. Geeta N. Brijwani for her mentorship, technical insight, and continuous encouragement throughout every phase of this research. I also sincerely thank Ms. Beenarani Karutharan, Ms. Shalini Maheshgauri, and Ms. Jovairia Ansari for their valuable academic support.
+
+I am grateful to the non-teaching staff Mr. Ashish Gawande, Mr. Aditya Pandey, and Mr. Rakesh Sharma of the Computer Science Department for providing laboratory facilities.
+
+Finally, I express my heartfelt appreciation to my family and classmates for their constant encouragement and support.
+
+
+
+INDEX
+
+Sr. No.
+
+Section / Chapter Title
+
+Page No.
+
+1
+
+Objectives
+
+6
+
+2
+
+Abstract
+
+7
+
+3
+
+Chapter 1: Introduction & Problem Formulation
+
+8
+
+1.1–1.3
+
+Background, problem statement, scope
+
+8
+
+4
+
+Chapter 2: Literature Survey & Gap Analysis
+
+9
+
+2.1
+
+Literature survey
+
+9
+
+2.2–2.3
+
+Comparison matrix and research gaps
+
+10
+
+5
+
+Chapter 3: Research Design & Mathematical Framework
+
+11
+
+3.1–3.2
+
+Existing methods and dataset discovery
+
+11
+
+3.3
+
+Preprocessing and data integrity
+
+12
+
+3.4
+
+Experimental protocol and model architecture
+
+13
+
+3.5
+
+Evaluation metrics and mathematical framework
+
+14
+
+6
+
+Chapter 4: Implementation & Experimental Results
+
+15
+
+4.1
+
+Implementation environment and pipeline
+
+15
+
+4.2
+
+Dataset analysis and validation results
+
+16
+
+4.3
+
+Held-out test results
+
+17
+
+4.4
+
+Error analysis and model selection
+
+18
+
+4.5
+
+Program code and reproducibility
+
+19
+
+4.6
+
+Working prototype and demonstration
+
+20
+
+7
+
+Chapter 5: Conclusion & Future Directions
+
+21
+
+5.2–5.3
+
+Mumbai-specific research and system development
+
+22–23
+
+8
+
+References
+
+24
+
+9
+
+Research Paper (Manuscript)
+
+25–34
+
+10
+
+Plagiarism Report
+
+35
+
+
+
+List of Figures
+
+Figure
+
+Title
+
+Page No.
+
+Fig. 4.1
+
+Source and cleaned image counts by split
+
+16
+
+Fig. 4.2
+
+Held-out test detection metrics
+
+17
+
+Fig. 4.3
+
+Matched detections, false alarms and missed potholes
+
+18
+
+Fig. 4.4
+
+Test mAP@0.5 versus CPU inference throughput
+
+18
+
+List of Abbreviations
+
+Term
+
+Meaning
+
+AI / ML
+
+Artificial Intelligence / Machine Learning
+
+CNN
+
+Convolutional Neural Network
+
+YOLO
+
+You Only Look Once
+
+COCO
+
+Common Objects in Context
+
+IoU / NMS
+
+Intersection over Union / Non-Maximum Suppression
+
+TP / FP / FN
+
+True Positive / False Positive / False Negative
+
+AP / mAP
+
+Average Precision / mean Average Precision
+
+CPU / GPU
+
+Central / Graphics Processing Unit
+
+GPS
+
+Global Positioning System
+
+RDD2022
+
+Road Damage Dataset 2022
+
+
+
+Objectives
+
+General Objective. To design and investigate a lightweight, AI-assisted pothole detection and repair-prioritisation system intended exclusively for Mumbai roads, beginning with a reproducible object-detection baseline and a working image-inference prototype during Semester III.
+
+Specific Objectives
+
+•  O1 – Review computer-vision approaches for pothole detection, including one-stage and two-stage detectors, and identify limitations relevant to Mumbai.
+
+•  O2 – Prepare a single-class pothole dataset, normalise its annotations and reduce exact-image data leakage across training, validation and test partitions.
+
+•  O3 – Fine-tune and compare YOLOv8n and YOLOv8s under a matched five-epoch CPU pilot protocol.
+
+•  O4 – Evaluate detection precision, recall, F1, mAP, error counts and CPU throughput; select a baseline using validation mAP@0.5.
+
+•  O5 – Demonstrate the trained detector using an interactive Streamlit image-upload and analysis prototype.
+
+•  O6 – In Semester IV, develop and evaluate a Mumbai-specific dataset, improve detection recall, and investigate geographic duplicate merging, explainable severity and repair priority with human verification.
+
+Research Questions
+
+RQ1: Which of the two trained YOLOv8 sizes performs better under the matched validation protocol? RQ2: What detection-error and throughput trade-offs are observed on the held-out public test set? RQ3 (future): Does locally adapted training improve pothole detection on independent Mumbai road images, including difficult weather and lighting conditions?
+
+
+
+Abstract
+
+RoadWatch is a proposed AI-assisted pothole detection and repair-prioritisation platform intended exclusively for Mumbai roads. This Semester III investigation establishes its detection foundation through a controlled pilot experiment and an interactive prototype. A public road-image dataset was converted to a one-class YOLO detection format and audited using SHA-256 hashing. Of 819 source images, 84 duplicate copies were removed, resulting in 735 images and 1,906 pothole annotations. Two COCO-pretrained YOLOv8 variants, nano and small, were fine-tuned under identical documented settings: five epochs, 416 × 416 input resolution, batch size eight, CPU execution and seed 42.
+
+YOLOv8n was selected using validation mAP@0.5 (0.6268 versus 0.5837). On the 79-image held-out test split containing 203 labelled potholes, YOLOv8n achieved precision 0.6377, recall 0.4335, F1 0.5161, mAP@0.5 0.5367 and throughput 10.41 images/s. YOLOv8s yielded precision 0.5444, recall 0.4532, F1 0.4946, mAP@0.5 0.4945 and 5.75 images/s. Both detectors missed more than half the test annotations at the fixed operating threshold, demonstrating the need for further optimisation. A Streamlit prototype supports image inference and comparative analysis. Faster R-CNN and SSD are reviewed but were not trained.
+
+The current data are not verified as Mumbai-specific; therefore, the findings establish a public-data baseline rather than local effectiveness. Future research will use independently collected Mumbai imagery, evaluate robustness across road conditions, and develop location-based duplicate handling and human-validated severity and priority scoring. The system is not yet ready for operational municipal use.
+
+Keywords: Pothole detection; Mumbai; YOLOv8; transfer learning; data integrity; object detection; repair prioritisation; computer vision.
+
+
+
+Chapter 1: Introduction & Problem Formulation
+
+1.1 Background & Mumbai Motivation
+
+Potholes are localised depressions in pavement that can affect road usability and vehicle safety. Mumbai is the sole intended geographical domain of RoadWatch. Monsoon rain, water accumulation, shadows, variable pavement appearance and dense traffic motivate a detector that is evaluated on local conditions rather than assumed to generalise from a public dataset. Image-based reporting offers a practical input mechanism, but an image alone does not establish physical depth or the urgency of a repair.
+
+Computer vision can locate damage in photographs and provide bounding boxes that guide human review. Deep-learning methods learn visual patterns from labelled examples instead of relying only on hand-coded rules. RoadWatch uses this capability as the first step of an intended reporting workflow.
+
+1.2 Problem Statement
+
+A lightweight detector must identify visible potholes with useful recall and manageable false alarms under resource constraints. For Mumbai, a further challenge is whether a model trained on publicly available imagery generalises to local streets. Repeated reports may refer to the same physical pothole, while image perspective and water can obscure severity. The present study therefore tests two compact detectors on a common public benchmark before undertaking local adaptation and repair-ranking research.
+
+1.3 Significance and Scope of the Work
+
+•  Current scope: single-class image-based pothole detection, exact-duplicate audit, matched CPU experiment, error analysis and Streamlit demonstration.
+
+•  Future geographic scope: Mumbai municipal road locations only. Images from other regions may serve as pretraining sources, not evidence of Mumbai performance.
+
+•  Excluded: crack classification, other cities, autonomous repair decisions, certified depth measurement and live municipal deployment.
+
+
+
+Chapter 2: Literature Survey & Gap Analysis
+
+2.1 Literature Survey: Detailed Review of Prior Work
+
+Redmon et al. [1] introduced YOLO as a unified object-detection formulation that predicts classes and object locations directly. Its one-stage design motivates rapid inference, but the original YOLO paper is not a description of YOLOv8. Ren et al. [2] presented Faster R-CNN, in which a region proposal network generates candidate regions for further classification and refinement. Liu et al. [3] introduced SSD, a one-stage detector that makes predictions at multiple feature scales. These works establish alternative detector families; their original benchmark results cannot be compared directly with RoadWatch because the datasets and experimental conditions differ.
+
+Ultralytics [4] documents YOLOv8, including its anchor-free detection head and model-size variants. RoadWatch uses pretrained nano and small detection checkpoints for transfer learning. The choice of a compact detector reflects the CPU-only pilot constraint rather than a claim of global superiority.
+
+Maeda et al. [7] investigated road-damage detection using smartphone imagery and labelled damage instances, illustrating the feasibility of camera-based road inspection. The RDD2022 dataset paper by Arya et al. [6] provides 47,420 road images from six countries, including India, and covers four damage categories. For RoadWatch, RDD2022 is a possible source for pothole-only transfer learning, but Indian imagery must not be equated with confirmed Mumbai observations.
+
+A review of road imaging and pothole detection [8] discusses classical two-dimensional processing, 3-D point-cloud approaches, machine learning and hybrid systems. A later review [9] also identifies variations in road appearance and imaging conditions as challenges for reliable detection. These studies motivate condition-wise testing and caution against treating a two-dimensional bounding box as a physical severity measurement.
+
+The literature supports the technical direction but does not establish that RoadWatch is the first system to combine detection and mapping. Its proposed contribution is a locally evaluated, explainable workflow for Mumbai, supported by transparent experiments and human verification.
+
+
+
+2.2 Literature Comparison Matrix & Research Gaps
+
+Study
+
+Method / objective
+
+Relevant finding
+
+Gap for this work
+
+[1] Redmon et al. (2016)
+
+YOLO, one-stage
+
+Unified localisation and classification
+
+Not a Mumbai pothole study
+
+[2] Ren et al. (2015)
+
+Faster R-CNN
+
+Region proposals and box refinement
+
+Not executed in this pilot
+
+[3] Liu et al. (2016)
+
+SSD
+
+Multi-scale single-stage predictions
+
+Not executed in this pilot
+
+[4] Ultralytics
+
+YOLOv8 documentation
+
+Anchor-free detector variants
+
+Not peer-reviewed benchmark evidence
+
+[6] Arya et al. (2024)
+
+RDD2022 dataset
+
+Multi-country road-damage images
+
+Mumbai provenance not established
+
+[7] Maeda et al. (2018)
+
+Smartphone road images
+
+Camera-based damage detection
+
+Local transfer needs validation
+
+[8] Road-imaging review (2022)
+
+2-D, 3-D and ML methods
+
+Different sensing trade-offs
+
+Physical severity needs extra evidence
+
+[9] Sensors review (2024)
+
+Vision-based methods
+
+Robustness and sensing challenges
+
+Condition-wise Mumbai evaluation needed
+
+2.3 Identified Research Gaps (G1–G5)
+
+Gap
+
+RoadWatch response / status
+
+G1. Split leakage
+
+Exact-image audit completed; perceptual duplicates remain a future audit.
+
+G2. Lightweight performance
+
+Matched nano/small pilot completed; full convergence and repeated trials pending.
+
+G3. Mumbai generalisation
+
+Local collection, route-wise test split and weather tags planned.
+
+G4. Detection misses
+
+Low recall measured; validation-only optimisation planned.
+
+G5. Actionable reporting
+
+GPS merging, severity agreement and priority validation planned.
+
+These are gaps in the present project and its target evaluation, not claims that no prior research has addressed them.
+
+
+
+Chapter 3: Research Design & Mathematical Framework
+
+3.1 Existing Detection Approaches
+
+Approach
+
+Mechanism
+
+Strength / limitation
+
+Status
+
+YOLOv8n
+
+One-stage compact CNN
+
+Low compute; limited capacity
+
+Trained
+
+YOLOv8s
+
+One-stage larger CNN
+
+More capacity; higher compute
+
+Trained
+
+SSD
+
+Multi-scale one-stage detector
+
+Efficient; needs fair benchmark
+
+Review only
+
+Faster R-CNN
+
+Two-stage detector
+
+Proposal refinement; higher cost
+
+Review only
+
+3-D / segmentation
+
+Geometry or pixel-level regions
+
+Better shape evidence; additional labels/sensors
+
+Future consideration
+
+3.2 Dataset Discovery & Selection
+
+The selected pilot dataset is the Road Damage Dataset attributed to abdulmohsen-fahad on Roboflow Universe, mirrored as manot/pothole-segmentation on Hugging Face [5]. The dataset card reports CC BY 4.0. Despite the mirror name, the present task uses COCO bounding-box annotations converted to a one-class detection dataset. The source is not verified as Mumbai-specific.
+
+Field
+
+Description
+
+Dataset source
+
+https://huggingface.co/datasets/manot/pothole-segmentation
+
+Task
+
+One-class detection: class 0 = pothole
+
+Input
+
+Road photographs
+
+Labels
+
+COCO bounding boxes; converted to YOLO normalized coordinates
+
+Clean dataset
+
+735 images; 1,906 pothole boxes; 9 empty-label images
+
+RDD2022
+
+Future transfer-learning candidate; not used in current results
+
+
+
+3.3 Dataset Preprocessing & Data Integrity
+
+Split
+
+Source images
+
+Source boxes
+
+Ignored object
+
+Removed images
+
+Clean images
+
+Clean boxes
+
+Empty
+
+Train
+
+582
+
+1499
+
+3
+
+75
+
+507
+
+1306
+
+4
+
+Val
+
+157
+
+405
+
+2
+
+8
+
+149
+
+397
+
+3
+
+Test
+
+80
+
+204
+
+1
+
+1
+
+79
+
+203
+
+2
+
+Total
+
+819
+
+2108
+
+6
+
+84
+
+735
+
+1906
+
+9
+
+The preprocessing pipeline merges “pothole” and “potholes” into one category. Six generic “object” annotations were ignored rather than assumed to be potholes. Bounding boxes were clipped to image boundaries; no invalid boxes were skipped. SHA-256 hashing identified 84 exact-duplicate groups in total, including 40 groups crossing split boundaries. Keeping test copies before validation and training copies removed 84 repeated images and corresponding labels. The 84 groups and 84 removed images are different measures, as reported in the project brief.
+
+Bounding-Box Conversion
+
+For a clipped COCO box [x, y, w, h] in an image with width W and height H, the YOLO label is class_id followed by the normalised centre coordinates and box dimensions.
+
+cx = (x + w/2) / W;  cy = (y + h/2) / H
+
+Eq. (1) Normalised box centre.
+
+bw = w/W;  bh = h/H
+
+Eq. (2) Normalised box width and height.
+
+Integrity and limitations
+
+Exact hashing prevents byte-identical images from appearing in more than one cleaned partition. It does not detect different encodings, resized versions, consecutive frames or photographs of the same physical pothole. A later perceptual-hash and location/route audit is needed. Only nine clean images contain no target annotation; this does not prove the absence of unlabelled damage and provides limited negative-scene coverage.
+
+
+
+3.4 Experimental Protocol & Model Architecture
+
+Setting
+
+Value
+
+Models
+
+COCO-pretrained YOLOv8n.pt and YOLOv8s.pt
+
+Epochs / input size
+
+5 / 416 × 416
+
+Batch / device
+
+8 / CPU; workers = 0
+
+Seed / training flags
+
+42; deterministic=True; patience=0
+
+Augmentation
+
+Ultralytics defaults
+
+Fixed operating threshold
+
+Confidence ≥ 0.25; NMS IoU 0.70
+
+Evaluation match
+
+One-to-one match at IoU ≥ 0.50
+
+Selection rule
+
+Highest validation mAP@0.5
+
+Model architecture
+
+YOLOv8 is a convolutional object detector. Its backbone extracts spatial features, the neck combines information across scales, and its anchor-free head predicts object locations and class scores [4]. Nano and small use related architectures at different capacities. Transfer learning starts from pretrained weights rather than random initialisation and adapts them to the pothole class.
+
+Stage
+
+Input → Output
+
+Backbone
+
+Image → learned feature maps
+
+Neck
+
+Multi-resolution features → fused features
+
+Detection head
+
+Fused features → candidate boxes and scores
+
+Post-processing
+
+Confidence filter and NMS → retained boxes
+
+Training is deliberately short and matched to isolate model-size behaviour in this pilot. Equal epoch counts do not establish equal convergence; the larger model may require additional training. Exact package versions, CPU model and complete optimiser settings should be recorded from the run logs before replication.
+
+
+
+3.5 Evaluation Metrics & Mathematical Framework
+
+Predictions at confidence ≥ 0.25 are sorted by confidence and matched greedily to unmatched ground-truth boxes with IoU ≥ 0.50. A match is a true positive (TP); an unmatched prediction is a false positive (FP); an unmatched labelled pothole is a false negative (FN). NMS at IoU 0.70 is used for inference suppression and is distinct from the matching threshold.
+
+IoU = Area(prediction ∩ ground truth) / Area(prediction ∪ ground truth)
+
+Eq. (3) Intersection over Union.
+
+Precision = TP / (TP + FP)
+
+Eq. (4) Fraction of predicted detections that match labels.
+
+Recall = TP / (TP + FN)
+
+Eq. (5) Fraction of labelled potholes matched by predictions.
+
+F1 = 2 × Precision × Recall / (Precision + Recall)
+
+Eq. (6) Harmonic mean of precision and recall.
+
+mAP@0.5:0.95 = mean of AP at IoU thresholds 0.50, 0.55, …, 0.95
+
+Eq. (7) Multi-threshold average precision.
+
+Average precision (AP) summarises the precision–recall curve at a given matching IoU; with one class, mAP equals AP for that class. mAP@0.5 uses IoU 0.50. Unlike fixed-threshold P/R/F1, these AP metrics aggregate ranked predictions over confidence operating points. Validation P/R in this study are Ultralytics curve-summary values, so they are not directly comparable to fixed-threshold test P/R.
+
+Throughput = Number of processed images / elapsed inference time (s)
+
+Eq. (8) Images per second; hardware- and implementation-specific.
+
+
+
+Chapter 4: Implementation & Experimental Results
+
+4.1 Implementation Environment & Pipeline
+
+Component
+
+Choice / purpose
+
+Programming
+
+Python: data conversion, training, evaluation and reporting
+
+Deep learning
+
+Ultralytics YOLO: transfer learning and inference
+
+Image processing
+
+OpenCV: image handling and annotated visual output
+
+Interface
+
+Streamlit: interactive inference and result exploration
+
+Integrity
+
+SHA-256: exact-image fingerprint
+
+Data formats
+
+COCO JSON, YOLO TXT, YAML, JSON and CSV
+
+Compute
+
+Local CPU; no GPU used in Phase I
+
+Implemented workflow
+
+Stage
+
+Output / purpose
+
+1. Download and parse
+
+Source road images and COCO annotations
+
+2. Clean and convert
+
+One-class YOLO labels; split audit and YAML configuration
+
+3. Fine-tune
+
+Two trained checkpoints and validation logs
+
+4. Evaluate
+
+Validation scores, test scores, TP/FP/FN and inference time
+
+5. Compare
+
+Comparison charts, metrics and selected detector
+
+6. Demonstrate
+
+Streamlit upload → inference → boxes and analysis
+
+The end-to-end deployment vision adds geographic association, duplicate report merging, severity and repair-priority scoring, and an officer dashboard. Those steps have not been implemented or evaluated. The present prototype is a detector demonstration, not an operational reporting service.
+
+
+
+4.2 Dataset Analysis & Validation Results
+
+
+
+Fig. 4.1. Source and cleaned image counts by dataset split.
+
+The cleaned training partition contains 507 images and 1,306 boxes; validation contains 149 images and 397 boxes; the test partition contains 79 images and 203 boxes. The test set is comparatively small, limiting the strength of generalisation claims. No condition or geographic labels were available for a Mumbai-specific analysis.
+
+Model
+
+Val precision
+
+Val recall
+
+Val mAP@0.5
+
+Val mAP@0.5:0.95
+
+YOLOv8n
+
+0.6334
+
+0.6196
+
+0.6268
+
+0.3507
+
+YOLOv8s
+
+0.5882
+
+0.5648
+
+0.5837
+
+0.2946
+
+YOLOv8n has the higher validation mAP@0.5 by 0.0431. Under the documented pre-declared selection rule it is chosen for the baseline prototype. The result reflects one short run per model and should not be interpreted as a statistically significant difference or a comparison against all detection architectures.
+
+
+
+4.3 Held-Out Test Results
+
+Metric
+
+YOLOv8n
+
+YOLOv8s
+
+Precision (fixed threshold)
+
+0.6377
+
+0.5444
+
+Recall (fixed threshold)
+
+0.4335
+
+0.4532
+
+F1 (fixed threshold)
+
+0.5161
+
+0.4946
+
+mAP@0.5
+
+0.5367
+
+0.4945
+
+mAP@0.5:0.95
+
+0.2814
+
+0.2492
+
+True positives
+
+88
+
+92
+
+False positives
+
+50
+
+77
+
+False negatives
+
+115
+
+111
+
+Total predictions
+
+138
+
+169
+
+CPU throughput (images/s)
+
+10.41
+
+5.75
+
+
+
+Fig. 4.2. Held-out test metrics. P/R/F1 use confidence 0.25; mAP uses ranked precision–recall curves.
+
+YOLOv8n gives the higher precision, F1 and both mAP metrics. YOLOv8s has slightly higher recall, matching four additional potholes at the cost of 27 additional false positives. The relative ranking is protocol-specific, not evidence of production readiness.
+
+
+
+4.4 Error Analysis & Best-Method Selection
+
+
+
+Fig. 4.3. Matched, false-positive and missed boxes on the 203-label test set.
+
+
+
+Fig. 4.4. Test mAP@0.5 versus measured local CPU throughput.
+
+YOLOv8n matched 88 of 203 labels and missed 115 (56.7%). It is approximately 1.81 times faster than YOLOv8s on the measured CPU. It is the selected pilot model because of validation mAP, not because of test-set optimisation. More training may change the ranking; neither detector is currently reliable enough for unsupervised repair decisions.
+
+
+
+4.5 Program Code & Reproducibility
+
+The following training call is reproduced from the existing RoadWatch report. It describes the implemented pilot settings; full project files and run logs should accompany the submission separately.
+
+model = YOLO(model_weights)model.train(data=str(dataset_yaml), epochs=epochs,    imgsz=imgsz, batch=8, device="cpu", workers=0,    seed=42, deterministic=True, patience=0,    project=str(RUNS_DIR), name=run_name,    exist_ok=False, plots=True, verbose=True)
+
+Documented Windows commands
+
+python -m pip install -r requirements.txtpython scripts\roadwatch_baseline.py preparepython scripts\roadwatch_baseline.py train --model yolov8n.pt --epochs 5 --imgsz 416python scripts\roadwatch_baseline.py validate --model yolov8n.ptpython scripts\roadwatch_baseline.py train --model yolov8s.pt --epochs 5 --imgsz 416python scripts\roadwatch_baseline.py validate --model yolov8s.ptpython scripts\build_comparative_report.pypython -m streamlit run demo_app.py
+
+Project files and outputs
+
+File / artifact
+
+Role
+
+scripts/roadwatch_baseline.py
+
+Dataset preparation, training, evaluation and reports
+
+scripts/build_comparative_report.py
+
+Checks matched settings; comparison charts and report
+
+demo_app.py / RUN_DEMO.bat
+
+Interactive inference and analysis demonstration
+
+data/processed/roadwatch.yaml
+
+Dataset paths and class names
+
+reports/metrics*.json; model_comparison.csv
+
+Run settings and measured scores
+
+reports/test_error_analysis_*.csv
+
+Per-image TP/FP/FN records
+
+reports/predictions/; runs/
+
+Overlays, logs, args.yaml and best.pt checkpoints
+
+
+
+4.6 Working Prototype & Demonstration
+
+The documented Streamlit prototype loads trained YOLOv8n and YOLOv8s best.pt weights and offers three tabs: Detect Potholes, Analysis & Results, and About the Project. Users may upload road images or sample test images, change confidence and image size, inspect detections and see inference timing. The severity badge is a preliminary interface heuristic, not a validated physical measurement.
+
+Demonstration case
+
+What to show
+
+Expected behaviour (not test results)
+
+Clear pothole
+
+Upload image, select nano
+
+Display any predicted boxes and scores
+
+Multiple potholes
+
+Upload multi-object image
+
+Display count and retained boxes
+
+Difficult scene
+
+Inspect missed / false prediction
+
+Explain limitations honestly
+
+Threshold change
+
+Compare same image at two settings
+
+May change retained detections; no guarantee
+
+Analysis tab
+
+Show baseline charts and results
+
+Matches documented pilot values
+
+Current and planned architecture
+
+Phase I (implemented per project brief)
+
+Phase II (proposed only)
+
+Upload / sample image → YOLO → annotated output and analysis
+
+Mumbai image + location → detection → duplicate review → severity / priority → officer dashboard
+
+Actual application screenshots, model overlays and a run recording are recommended submission evidence. The attached source materials contain no verified live screenshots or raw prediction files; illustrative presentation mockups are not experimental outputs.
+
+Screenshot evidence to attach after running the prototype
+
+Add actual screenshots of: (a) detection tab with a successful prediction; (b) a failure case; (c) analysis tab with both models. Use the original image, ground-truth label if available, selected model, threshold and observed result in each caption.
+
+
+
+Chapter 5: Conclusion & Future Directions
+
+5.1 Conclusion and Limitations
+
+The Semester III study establishes a reproducible one-class detection baseline using 735 cleaned images and 1,906 labelled potholes. The exact-duplicate audit addresses a practical risk of data leakage. Under the documented short CPU experiment, YOLOv8n achieves the stronger validation mAP@0.5 and is selected for the interactive prototype. It reaches 0.5367 test mAP@0.5 and 10.41 images/s, but its recall of 0.4335 highlights a substantial detection limitation.
+
+The completed contribution is a matched pilot comparison, documented data preparation and an inference demonstration. The proposed contribution is a locally evaluated Mumbai pothole reporting and priority workflow; novelty and usefulness must be demonstrated in Phase II rather than asserted in advance.
+
+Limitation
+
+Implication
+
+Five epochs; one seed
+
+No convergence or variability assessment
+
+79 test images
+
+Limited precision of performance estimates
+
+Public data; unknown Mumbai provenance
+
+No local generalisation claim
+
+Only one detector family executed
+
+No cross-family superiority claim
+
+Exact hashes only
+
+Near-duplicates may remain
+
+Only nine empty-label images
+
+Weak negative-scene coverage
+
+No physical measurements or ratings
+
+Severity remains unvalidated
+
+Machine-specific throughput
+
+Not a hardware-normalised speed benchmark
+
+A longer GPU experiment, route-disjoint Mumbai evaluation and transparent human verification are higher priorities than adding untested features.
+
+
+
+5.2 Future Directions: Mumbai Dataset & Model Improvement
+
+Phase II will restrict field collection and final evaluation to Mumbai. A proposed collection plan is 500–1,000 safely captured images, subject to access and time. Record location, date, road segment, weather, lighting and surface conditions where lawful and feasible. Include pothole-free roads, manholes, patches, puddles and shadows as hard negatives; do not collect from unsafe traffic positions. Blur identifiable faces and number plates before sharing.
+
+Proposed step
+
+Evaluation / decision
+
+Local annotation
+
+Single pothole class; bounding boxes, condition tags and independent label review
+
+Leakage controls
+
+Group by route, physical pothole and capture session; audit near-duplicates before splitting
+
+External pretraining
+
+Consider RDD2022 D40 potholes; verify licence and provenance; not a Mumbai test set
+
+Longer training
+
+GPU, proposed 50 epochs with validation monitoring; compare 416 and 640 input sizes
+
+Threshold selection
+
+Validation precision–recall curve; select threshold for recall with a pre-set precision floor
+
+Benchmark
+
+YOLOv8n and YOLOv8s plus one cross-family model, e.g. Faster R-CNN, if compute permits
+
+Reliability
+
+At least three proposed seeds; mean/SD; paired image/route bootstrap confidence intervals
+
+Independent evaluation
+
+Freeze choices; report untouched Mumbai test metrics overall and by condition
+
+A provisional research target is to improve recall relative to the Phase I baseline while maintaining an agreed precision floor. The Mumbai baseline must first be measured on the same local test protocol; public and Mumbai numbers are not directly interchangeable. No performance improvement is claimed yet.
+
+
+
+5.3 Future Directions: Geographic Reporting & Repair Priority
+
+The proposed Mumbai-only system will attach user-confirmed GPS coordinates and timestamps to detections, reject or flag reports outside the chosen Mumbai boundary, and merge candidate reports using spatial distance, time and visual similarity. Photo coordinates may represent the camera rather than the pothole; location uncertainty and nearby distinct potholes require human review.
+
+Module
+
+Proposed implementation and evaluation
+
+GPS and map
+
+Location metadata or user pin; geofencing; map review
+
+Duplicate merging
+
+Haversine distance plus visual similarity; evaluate pair precision/recall against known pothole identities
+
+Severity
+
+Use calibrated physical dimensions or independent assessor ratings where feasible; separate uncertainty from severity
+
+Repair ranking
+
+Combine assessed severity, road exposure and report age; validate ordering with independent human rankings
+
+Dashboard
+
+Proposed FastAPI, React/Leaflet, PostgreSQL; officer reviews evidence and updates repair status
+
+Privacy
+
+Consent, minimum location data, face/plate blurring, restricted access
+
+Candidate priority framework (not yet implemented)
+
+Priority = wS × S + wE × E + wA × A;  wS + wE + wA = 1
+
+Eq. (9) Proposed weighted score; non-negative weights and normalised inputs.
+
+S is independently assessed severity, E is road exposure and A is report age. Weights and thresholds will be set using validation or assessor feedback. Detection confidence determines review uncertainty, not physical severity. The ranking remains advisory; officials retain decision authority.
+
+Deliverable sequence: local dataset → improved detector → spatial merging → severity/priority validation → dashboard integration and final Mumbai evaluation.
+
+
+
+References
+
+[1] J. Redmon, S. Divvala, R. Girshick and A. Farhadi, “You Only Look Once: Unified, Real-Time Object Detection,” CVPR, 2016. https://arxiv.org/abs/1506.02640
+
+[2] S. Ren, K. He, R. Girshick and J. Sun, “Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks,” NeurIPS, 2015. https://arxiv.org/abs/1506.01497
+
+[3] W. Liu et al., “SSD: Single Shot MultiBox Detector,” ECCV, 2016. https://arxiv.org/abs/1512.02325
+
+[4] Ultralytics, “Explore Ultralytics YOLOv8,” software documentation. https://docs.ultralytics.com/models/yolov8/
+
+[5] abdulmohsen-fahad, Road Damage Dataset (Roboflow Universe), mirrored by manot on Hugging Face, “pothole-segmentation,” dataset card. https://huggingface.co/datasets/manot/pothole-segmentation
+
+[6] D. Arya et al., “RDD2022: A multi-national image dataset for automatic road damage detection,” Geoscience Data Journal, 2024. https://doi.org/10.1002/gdj3.260. Dataset: https://figshare.com/articles/dataset/21431547
+
+[7] H. Maeda et al., “Road Damage Detection and Classification Using Deep Neural Networks with Smartphone Images,” Computer-Aided Civil and Infrastructure Engineering, 2018. https://doi.org/10.1111/mice.12387
+
+[8] “Computer Vision for Road Imaging and Pothole Detection: A State-of-the-Art Review of Systems and Algorithms,” Transportation Safety and Environment, vol. 4, no. 4, 2022. https://doi.org/10.1093/tse/tdac026
+
+[9] “A Review of Vision-Based Pothole Detection Methods Using Computer Vision and Machine Learning,” Sensors, vol. 24, no. 17, art. 5652, 2024. https://doi.org/10.3390/s24175652
+
+Project evidence: RoadWatch_Master_Research_Brief_For_ChatGPT.md; RoadWatch_Research_Report.docx; RoadWatch_Presentation.pptx. Experimental numbers are reproduced from the project documentation, not independently rerun.
+
+
+
+Research Paper
+
+ROADWATCH: AI-ASSISTED POTHOLE DETECTION AND COMPARATIVE EVALUATION OF LIGHTWEIGHT DEEP LEARNING MODELS FOR MUMBAI ROAD REPAIR PRIORITISATION
+
+Neeraj Sonar
+
+(Department of Computer Science, K.C. College, HSNC University, Mumbai 400 020, India)
+
+Dr. Geeta N. Brijwani — Project Guide
+
+(Department of Computer Science, K.C. College, HSNC University, Mumbai 400 020, India)
+
+Abstract
+
+Pothole detection using computer vision can assist road inspection by transforming citizen photographs into candidate damage reports. RoadWatch is a proposed Mumbai-specific pothole detection, severity assessment and repair-prioritisation system. This study establishes the detector-stage baseline through a controlled comparison of two COCO-pretrained YOLOv8 configurations. A public dataset of 819 road images was cleaned using annotation standardisation and SHA-256 exact-image deduplication, yielding 735 images and 1,906 pothole bounding boxes. Both detectors were fine-tuned for five epochs on CPU using identical data partitions, input resolution and batch size. YOLOv8n was selected by validation mAP@0.5 (0.6268 versus 0.5837). On 79 held-out images with 203 labelled potholes, YOLOv8n achieved precision 0.6377, recall 0.4335 (rounded), F1 0.5161 and mAP@0.5 0.5367 at 10.41 images/s. YOLOv8s achieved precision 0.5444, recall 0.4532, F1 0.4946 and mAP@0.5 0.4945 at 5.75 images/s. Both detectors missed over half of the labelled potholes at the fixed operating threshold. An interactive Streamlit prototype supports image inference and inspection of these results. The findings establish a preliminary baseline, not a validated Mumbai deployment; local data collection, recall improvement, geographic deduplication and human-validated severity assessment are proposed for subsequent research.
+
+Keywords: Pothole detection, road damage, YOLOv8, computer vision, data leakage, transfer learning, Mumbai, repair prioritisation.
+
+Introduction
+
+Potholes are a practical road-maintenance concern because road-surface damage may disrupt travel and create hazards. RoadWatch focuses exclusively on the municipal context of Mumbai, where an image-based reporting workflow could support human inspection and prioritisation. The present investigation addresses the first technical dependency: locating potholes in road photographs with a compact object detector.
+
+
+
+A pothole detection system differs from a conventional image classifier: a classifier provides an image-level category, whereas a detector must identify the position of each visible damage instance. A citizen photograph can contain several potholes, shadows, markings or unrelated objects, so detection requires both recognition and localisation. Conditions such as low light, wet surfaces, water-filled depressions and camera viewpoint can complicate visual interpretation. These conditions motivate Mumbai-specific testing but were not annotated in the current public dataset.
+
+An operational reporting system also requires more than a detector. Different photographs of the same physical pothole may create duplicate reports, while the apparent size of a pothole changes with camera distance and perspective. A high-confidence detection therefore does not establish physical severity or repair urgency. The RoadWatch architecture separates visual evidence from geographic association, damage assessment and municipal decision support. Only the first stage has been evaluated in this semester.
+
+The research question is whether a compact YOLOv8n configuration or a higher-capacity YOLOv8s configuration produces a stronger validation detection score when trained with the same short CPU protocol, and what trade-off is observed in held-out recall, false alarms and processing throughput. The experiment does not claim to identify the best detector across all architectures or establish generalisation to Mumbai roads.
+
+For a predicted bounding box Bp and a ground-truth box Bg, localisation agreement is quantified using Intersection over Union (IoU). A prediction is eligible for a correct match only when the overlap satisfies the chosen criterion:
+
+IoU(Bp, Bg) = Area(Bp ∩ Bg) / Area(Bp ∪ Bg)
+
+(1) Intersection over Union for bounding-box overlap.
+
+Literature Review
+
+Redmon et al. [1] introduced the YOLO formulation, in which detection is performed through a unified network rather than a separate region-proposal stage. The one-stage approach provides a useful foundation for applications in which processing time matters. RoadWatch uses the later YOLOv8 implementation documented by Ultralytics [4], not the original YOLO architecture. The Nano and Small variants allow model capacity to be compared without changing the underlying detector family.
+
+Ren et al. [2] proposed Faster R-CNN, which uses a Region Proposal Network followed by region classification and box refinement. Liu et al. [3] proposed SSD, a one-stage detector predicting boxes across multiple feature-map scales. These methods provide relevant architectural alternatives. They are reviewed as literature baselines only: neither was trained or assigned experimental scores in the present work.
+
+
+
+Road-damage-specific research provides a closer context than general-purpose object detection. Maeda et al. [7] investigated the detection and classification of road damage from smartphone images, motivating accessible image capture as an alternative source of inspection evidence. Arya et al. [6] introduced RDD2022, a multi-national road-damage dataset that includes Indian imagery. Its availability motivates an India-oriented transfer-learning study, but an Indian subset cannot automatically be treated as a verified Mumbai test set.
+
+Reviews of computer vision for road imaging and pothole detection [8], [9] provide broader context for the limitations of visual detection and the range of existing approaches. They motivate the distinction between detecting visible damage and estimating its physical geometry. The present study does not compare numerical results reported by unrelated papers because differences in datasets, annotation policies, image sizes and hardware would make a direct ranking misleading.
+
+The project addresses four specific research needs: (1) auditing exact-image duplicates across partitions before training; (2) comparing two lightweight detector scales under a matched protocol; (3) reporting missed detections and false alarms alongside aggregate AP and throughput; and (4) establishing a pathway toward an independently evaluated Mumbai-only reporting workflow. The first three are implemented in the pilot, while the fourth remains a proposed research direction. These are project-specific contributions, not claims that the underlying techniques are novel.
+
+METHODOLOGY
+
+3.1 Data Collection and Preprocessing
+
+The pilot uses a publicly accessible Road Damage Dataset originally attributed to abdulmohsen-fahad on Roboflow Universe and mirrored as manot/pothole-segmentation on Hugging Face [5]. The dataset card states a CC BY 4.0 licence. Despite the mirror name, this experiment uses COCO bounding-box annotations for single-class object detection. Source labels “pothole” and “potholes” are unified; six generic “object” annotations are excluded rather than assumed to be potholes.
+
+TABLE 1 Description of the Public Pothole Dataset Before and After Cleaning
+
+Partition
+
+Source images
+
+Clean images
+
+Clean boxes
+
+Duplicates removed
+
+Training
+
+582
+
+507
+
+1,306
+
+75
+
+Validation
+
+157
+
+149
+
+397
+
+8
+
+Testing
+
+80
+
+79
+
+203
+
+1
+
+Total
+
+819
+
+735
+
+1,906
+
+84
+
+The cleaned dataset contains nine images without retained pothole annotations (four training, three validation and two test). The test partition is held apart from model-configuration selection. Its small size and unknown geographic composition limit the interpretation of the results.
+
+
+
+COCO annotations describe a bounding box using its top-left position and width and height. After clipping coordinates to the image boundaries, the preprocessing pipeline converts boxes to YOLO normalised centre coordinates. For a clipped box (x, y, w, h) in an image of width W and height H, the transformation is:
+
+cx = (x + w/2)/W;  cy = (y + h/2)/H;  bw = w/W;  bh = h/H
+
+(2) COCO-to-YOLO bounding-box normalisation.
+
+Each annotation is written with class identifier 0 and the four normalised values. No invalid boxes were skipped in the documented run. The same cleaned files are used for both detectors. This preserves a common evaluation basis and avoids silently relabelling ambiguous generic annotations.
+
+SHA-256 hashing is applied to the image bytes before training. The audit identifies 84 exact-duplicate groups, including 40 groups crossing split boundaries. For duplicate images, the test copy is retained first, followed by validation and training; lower-priority copies and their labels are removed. A total of 84 duplicate images were removed. This addresses byte-identical leakage, but does not detect near-duplicate images produced by compression, resizing, cropping or sequential capture.
+
+3.2 Transfer Learning and Controlled YOLOv8 Experimental Design
+
+Both configurations begin with COCO-pretrained weights, permitting the models to reuse learned visual features rather than training all parameters from random initialisation. YOLOv8n is the smaller model and YOLOv8s provides more capacity. The model family uses a convolutional feature extractor, multi-scale feature aggregation and a detection head to predict object locations and confidence. The study compares the provided Ultralytics implementations rather than proposing a new neural architecture.
+
+TABLE 2 Matched Training and Evaluation Configuration
+
+Setting
+
+Value
+
+Pretrained configurations
+
+YOLOv8n.pt and YOLOv8s.pt
+
+Training epochs; image size
+
+5; 416 × 416 pixels
+
+Batch; compute; workers
+
+8; CPU; 0
+
+Random seed; deterministic
+
+42; enabled
+
+Augmentation; patience
+
+Ultralytics defaults; 0
+
+Fixed confidence; matching IoU
+
+0.25; at least 0.50
+
+NMS IoU; selection metric
+
+0.70; validation mAP@0.5
+
+The settings control obvious experimental differences, but a five-epoch budget does not guarantee that both models reach convergence. The comparison is therefore a matched short-run pilot, not a comparison of fully optimised architectures.
+
+
+
+3.3 Object Detection Techniques and Performance Evaluation
+
+The validation split is used to select the preferred model configuration. The documented rule selects the model with the highest validation mAP@0.5, leaving the test data for final reporting. To evaluate errors at a specific operating point, predictions are filtered at confidence 0.25 and matched in descending confidence order to at most one unmatched ground-truth box with IoU at least 0.50. A matched box is a true positive (TP), an unmatched prediction is a false positive (FP), and an unmatched labelled pothole is a false negative (FN). Non-maximum suppression (NMS) removes redundant overlapping predictions before this matching step.
+
+Precision = TP / (TP + FP);     Recall = TP / (TP + FN)
+
+(3) Precision and recall at a fixed operating threshold.
+
+F1 = 2 × Precision × Recall / (Precision + Recall)
+
+(4) Harmonic mean of precision and recall.
+
+Average precision (AP) summarises the ranked precision–recall curve. Because the dataset has one class, mean AP equals the AP of the pothole class. mAP@0.5 measures detection performance at an IoU of 0.50; mAP@0.5:0.95 averages AP over ten IoU thresholds from 0.50 to 0.95. These are distinct from P/R/F1 calculated using the single confidence threshold of 0.25.
+
+mAP@0.5:0.95 = (1/10) Σ AP(0.50 + 0.05k),  k = 0,…,9
+
+(5) AP averaged over progressively stricter overlap criteria.
+
+Throughput = Number of evaluated images / Elapsed inference time (seconds)
+
+(6) Measured CPU image processing throughput.
+
+Validation precision and recall are Ultralytics curve-summary metrics; test precision and recall are obtained from fixed-threshold matching. They are not directly comparable as a before-and-after pair. Speed is reported on the local CPU under the documented inference measurement, not as a general hardware-normalised benchmark.
+
+IMPLEMENTATION
+
+The Python script scripts/roadwatch_baseline.py handles dataset preparation, training, validation, test inference and report export. It creates the YOLO dataset configuration, records experiment settings and generates per-image error CSVs and prediction overlays. The script scripts/build_comparative_report.py checks matched settings and generates the model comparison tables and graphs. The Streamlit application demo_app.py uses Ultralytics and OpenCV to load trained best.pt checkpoints, upload or sample road images, adjust confidence and image size, and display detections, inference time and comparative results. Its LOW/MEDIUM/HIGH severity indicator is an unvalidated UI heuristic, not a physical measurement.
+
+
+
+RESULTS
+
+The cleaned data partition was shared across both experimental configurations. Figure 1 shows the reduction from 819 source images to 735 unique retained images. The training partition contains 507 images and 1,306 boxes; validation contains 149 images and 397 boxes; testing contains 79 images and 203 boxes. This distribution permits a pilot comparison, but does not provide enough evidence to infer performance under Mumbai monsoon or night-time conditions.
+
+
+
+FIGURE 1 Source and cleaned image counts by dataset split.
+
+TABLE 3 Validation Performance and Model Selection
+
+Model
+
+Precision
+
+Recall
+
+mAP@0.5
+
+mAP@0.5:0.95
+
+YOLOv8n
+
+0.6334
+
+0.6196
+
+0.6268
+
+0.3507
+
+YOLOv8s
+
+0.5882
+
+0.5648
+
+0.5837
+
+0.2946
+
+YOLOv8n exceeds YOLOv8s by 0.0431 on validation mAP@0.5 and is therefore selected using the pre-declared criterion. The Nano model also scores higher on validation mAP@0.5:0.95. These values concern one training run per model and should not be interpreted as statistically significant differences. A larger model may require more training, but that hypothesis has not yet been tested.
+
+For the held-out test images, both checkpoints are evaluated independently of the selection rule. The fixed-threshold counts permit direct inspection of missed potholes and false detections, while the AP values describe the ranked detection performance across confidence levels. This distinction is important because a threshold may alter the operational balance between false alarms and misses without changing the trained model.
+
+
+
+TABLE 4 Final Performance Comparison on the Held-Out Test Split
+
+Metric
+
+YOLOv8n
+
+YOLOv8s
+
+Precision (fixed threshold)
+
+0.6377
+
+0.5444
+
+Recall (fixed threshold)
+
+0.4335
+
+0.4532
+
+F1 score (fixed threshold)
+
+0.5161
+
+0.4946
+
+mAP@0.5
+
+0.5367
+
+0.4945
+
+mAP@0.5:0.95
+
+0.2814
+
+0.2492
+
+CPU throughput (images/s)
+
+10.41
+
+5.75
+
+
+
+FIGURE 2 Held-out detection metrics (P/R/F1 at confidence 0.25; AP across ranked predictions).
+
+Table 4 and Figure 2 show that the selected Nano model has higher precision, F1 and both AP measures. The Small model has a slightly higher recall, so it cannot be described as inferior on every metric. On this fixed operating point, YOLOv8n matches 88 of 203 labelled potholes, whereas YOLOv8s matches 92. The four additional detections are accompanied by 27 additional false alarms, indicating a trade-off between finding more potholes and generating extra candidate reports.
+
+For YOLOv8n, precision is 88/138 and recall is 88/203. For YOLOv8s, the corresponding ratios are 92/169 and 92/203. These counts independently reproduce the fixed-threshold metrics to rounding precision. The F1 scores follow from Equation (4). The AP values, however, cannot be reconstructed from a single confusion-count summary; they require the ranked predictions generated during evaluation.
+
+
+
+TABLE 5 Error Counts on 203 Labelled Test Potholes
+
+Metric
+
+YOLOv8n
+
+YOLOv8s
+
+True positives
+
+88
+
+92
+
+False positives
+
+50
+
+77
+
+False negatives
+
+115
+
+111
+
+Total predicted boxes
+
+138
+
+169
+
+
+
+FIGURE 3 Matched detections, false positives and missed potholes at the fixed threshold.
+
+
+
+FIGURE 4 Test mAP@0.5 versus measured CPU inference throughput.
+
+Figure 3 exposes the main weakness: YOLOv8n misses 115 of 203 labelled potholes (56.7%), while YOLOv8s misses 111 (54.7%). Figure 4 shows that Nano is approximately 1.81 times faster on the measured CPU. The test results support its use as a preliminary demonstration model but not an unsupervised road-maintenance decision system. The small test set, single random seed, short training schedule and residual near-duplicate risk prevent strong generalisation or statistical superiority claims.
+
+
+
+CONCLUSION AND FUTURE WORK
+
+This study establishes a documented baseline for RoadWatch through a shared, cleaned public dataset, matched YOLOv8n and YOLOv8s experiments, explicit validation-based selection and fixed-threshold error analysis. YOLOv8n is the preferred pilot configuration, with validation mAP@0.5 of 0.6268, test mAP@0.5 of 0.5367 and measured CPU throughput of 10.41 images/s. Its limited recall is the principal research problem identified by the experiment. The Streamlit prototype demonstrates the detector stage; geographic reporting and repair prioritisation have not yet been validated.
+
+The next phase will restrict the final application and local evaluation to Mumbai. Safely collected road photographs will be labelled by pothole instance, road segment, lighting and weather, with negative examples and explicit treatment of water-filled or ambiguous damage. Route- or segment-disjoint partitions and near-duplicate checks will reduce leakage. RDD2022 may be used for additional transfer learning, but a separate Mumbai test set will remain untouched during optimisation. Longer GPU training, multiple random seeds, validation-only confidence selection and a cross-family comparison will examine recall improvement without unacceptable false alarms. Results will be reported by condition and with uncertainty where supported.
+
+The planned reporting pipeline will associate user-confirmed coordinates and time with candidate potholes, merge geographically and visually similar reports, and rank verified damage using explainable factors. A proposed priority function combines independently assessed severity, road exposure and report age using non-negative weights summing to one. Confidence indicates detection uncertainty, not depth or danger. Human assessment and, where feasible, measured physical dimensions will be required to validate severity. A municipal dashboard will present Mumbai-only candidate reports for human review and repair tracking. These modules remain proposed work and no performance or municipal adoption claims are made.
+
+ACKNOWLEDGMENT
+
+I would like to thank my project guide, Dr. Geeta N. Brijwani, for her guidance throughout this investigation and the Department of Computer Science, K.C. College, HSNC University, Mumbai, for its academic support.
+
+
+
+References
+
+[1] J. Redmon, S. Divvala, R. Girshick and A. Farhadi, “You Only Look Once: Unified, Real-Time Object Detection,” CVPR, 2016. https://arxiv.org/abs/1506.02640
+
+[2] S. Ren, K. He, R. Girshick and J. Sun, “Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks,” NeurIPS, 2015. https://arxiv.org/abs/1506.01497
+
+[3] W. Liu et al., “SSD: Single Shot MultiBox Detector,” ECCV, 2016. https://arxiv.org/abs/1512.02325
+
+[4] Ultralytics, “Explore Ultralytics YOLOv8,” software documentation. https://docs.ultralytics.com/models/yolov8/
+
+[5] abdulmohsen-fahad, Road Damage Dataset (Roboflow Universe), mirrored by manot on Hugging Face, “pothole-segmentation,” dataset card. https://huggingface.co/datasets/manot/pothole-segmentation
+
+[6] D. Arya et al., “RDD2022: A multi-national image dataset for automatic road damage detection,” Geoscience Data Journal, 2024. https://doi.org/10.1002/gdj3.260. Dataset: https://figshare.com/articles/dataset/21431547
+
+[7] H. Maeda et al., “Road Damage Detection and Classification Using Deep Neural Networks with Smartphone Images,” Computer-Aided Civil and Infrastructure Engineering, 2018. https://doi.org/10.1111/mice.12387
+
+[8] “Computer Vision for Road Imaging and Pothole Detection: A State-of-the-Art Review of Systems and Algorithms,” Transportation Safety and Environment, vol. 4, no. 4, 2022. https://doi.org/10.1093/tse/tdac026
+
+[9] “A Review of Vision-Based Pothole Detection Methods Using Computer Vision and Machine Learning,” Sensors, vol. 24, no. 17, art. 5652, 2024. https://doi.org/10.3390/s24175652
+
+
+
+Plagiarism Report
+
+Similarity-check report to be appended after the final document is reviewed and processed through the institution-approved plagiarism-checking service.
+
+No similarity percentage, certificate or approval is claimed in this report. Replace this page with the actual report generated by the authorised service before final submission, if required by the department.
+
+Passage results:
+
+1. Potential match · Checked · 100%
+HSNC UNIVERSITY, MUMBAI KISHINCHAND CHELLARAM COLLEGE Churchgate, Mumbai - 400 020 DEPARTMENT OF COMPUTER SCIENCE Research Project On
+Source: https://www.coursehero.com/file/230460769/KSMSCCS022-SAURABH-SINGH-INTERNSHIP-DOCUMENTATIONpdf/
+Search result: HSNC UNIVERSITY, MUMBAI KISHINCHAND CHELLARAM COLLEGE Churchgate, Mumbai –400 020 DEPARTMENT OF COMPUTER SCIENCE Internship Report On FRONT ...
+
+2. No flagged match · Not checked · 0%
+RoadWatch: An Intelligent Framework for Pothole Detection, Severity Assessment and Repair Prioritisation Using Deep Learning Submitted By Neeraj Sonar - 26KFMSCCS26 Under the guidance of Dr. Geeta N. Brijwani
+
+3. No flagged match · Not checked · 0%
+Submitted in partial fulfillment of the requirement for
+
+4. No flagged match · Not checked · 0%
+qualifying MSc. Computer Science Semester III Examination A.Y. November 2026-2027 HSNC UNIVERSITY, MUMBAI KISHINCHAND CHELLARAM COLLEGE Churchgate, Mumbai - 400 020 CERTIFICATE
+
+5. No flagged match · Not checked · 0%
+This is to certify that Mr. Neeraj Sonar (26KFMSCCS26), of M.Sc.
+
+6. No flagged match · Not checked · 0%
+Computer Science, has completed the Semester III research and prototype phase of the Research Project entitled RoadWatch: AI-Assisted Pothole Detection, Severity Scoring and Repair Prioritisation Uising Deep Learning in partial fulfilment of the requirements of the M.Sc.
+
+7. No flagged match · Not checked · 0%
+Computer Science degree at HSNC University, Mumbai, for the academic year 2026–2027.
+
+8. No flagged match · Not checked · 0%
+It is further certified that this project had not been submitted for any other examination and does not form part of any other course undergone by the candidate. Dr. Geeta N. Brijwani Signature of Dr. S. B. Muley Project Guide External Examiner Head, Dept. ofComputer Science Date of Exam__________________                    Examined By________________ ACKNOWLEDGEMENT
+
+9. No flagged match · Not checked · 0%
+I take this opportunity to express my heartfelt gratitude to all the individuals for their invaluable support and encouragement throughout the course of this research investigation.
+
+10. No flagged match · Not checked · 0%
+I am deeply thankful to Dr. Hemlata K. Bagla, Vice Chancellor of HSNC University, Mumbai for providing me with the opportunity to pursue my postgraduate studies at this esteemed institution.
+
+11. No flagged match · Not checked · 0%
+I extend my sincere gratitude to Dr. Tejashree V. Shanbhag, Principal of Kishinchand Chellaram College, Mumbai, for generously providing all academic resources and unwavering support.
+
+12. No flagged match · Not checked · 0%
+My gratitude also goes to Dr. S. B. Muley, Head, Department of Computer Science, for his constant guidance and encouragement.
+
+13. No flagged match · Not checked · 0%
+I am deeply indebted to my project guide Dr. Geeta N. Brijwani for her mentorship, technical insight, and continuous encouragement throughout every phase of this research. I also sincerely thank Ms. Beenarani Karutharan, Ms. Shalini Maheshgauri, and Ms. Jovairia Ansari for their valuable academic support.
+
+14. No flagged match · Checked · 45.16%
+I am grateful to the non-teaching staff Mr. Ashish Gawande, Mr. Aditya Pandey, and Mr. Rakesh Sharma of the Computer Science Department for providing laboratory facilities.
+Source: https://indiankanoon.org/doc/193809797/
+Search result: Ashish Pandey, AOR Ms. Diva Singh, Adv. Mr. Anant Kumar Vatsya, Adv. Mr... Aditya Sharma, Adv. Mrs. Aarushi Singh, Adv. Ms. Vidhi Pankaj Thaker, AOR ...
+
+15. No flagged match · Not checked · 0%
+Finally, I express my heartfelt appreciation to my family and classmates for their constant encouragement and support. INDEX Sr. No. Section / Chapter Title Page No. 1 Objectives 6 2 Abstract 7 3 Chapter 1: Introduction & Problem Formulation 8 1.1–1.3 Background, problem statement, scope 8 4 Chapter 2: Literature Survey & Gap Analysis 9 2.1 Literature survey 9 2.2–2.3 Comparison matrix and research gaps 10 5 Chapter 3: Research Design & Mathematical Framework 11 3.1–3.2 Existing methods and dataset discovery 11 3.3 Preprocessing and data integrity 12 3.4 Experimental protocol and model architecture 13 3.5 Evaluation metrics and mathematical framework 14 6 Chapter 4: Implementation & Experimental Results 15 4.1 Implementation environment and pipeline 15 4.2 Dataset analysis and validation results 16 4.3 Held-out test results 17 4.4 Error analysis and model selection 18 4.5 Program code and reproducibility 19 4.6 Working prototype and demonstration 20 7 Chapter 5: Conclusion & Future Directions 21 5.2–5.3 Mumbai-specific research and system development 22–23 8 References 24 9 Research Paper (Manuscript) 25–34 10 Plagiarism Report 35 List of Figures Figure Title Page No. Fig. 4.1 Source and cleaned image counts by split 16 Fig. 4.2 Held-out test detection metrics 17 Fig. 4.3 Matched detections, false alarms and missed potholes 18 Fig. 4.4
+
+16. No flagged match · Not checked · 0%
+Test mAP@0.5 versus CPU inference throughput 18 List of Abbreviations Term Meaning AI / ML Artificial Intelligence / Machine Learning CNN Convolutional Neural Network YOLO You Only Look Once COCO Common Objects in Context IoU / NMS Intersection over Union / Non-Maximum Suppression TP / FP / FN True Positive / False Positive / False Negative AP / mAP Average Precision / mean Average Precision CPU / GPU Central / Graphics Processing Unit GPS Global Positioning System RDD2022 Road Damage Dataset 2022 Objectives
+
+17. No flagged match · Not checked · 0%
+General Objective. To design and investigate a lightweight, AI-assisted pothole detection and repair-prioritisation system intended exclusively for Mumbai roads, beginning with a reproducible object-detection baseline and a working image-inference prototype during Semester III. Specific Objectives
+
+18. No flagged match · Not checked · 0%
+•  O1 – Review computer-vision approaches for pothole detection, including one-stage and two-stage detectors, and identify limitations relevant to Mumbai.
+
+19. No flagged match · Not checked · 0%
+•  O2 – Prepare a single-class pothole dataset, normalise its annotations and reduce exact-image data leakage across training, validation and test partitions.
+
+20. No flagged match · Not checked · 0%
+•  O3 – Fine-tune and compare YOLOv8n and YOLOv8s under a matched five-epoch CPU pilot protocol.
+
+21. No flagged match · Not checked · 0%
+•  O4 – Evaluate detection precision, recall, F1, mAP, error counts and CPU throughput; select a baseline using validation mAP@0.5.
+
+22. No flagged match · Not checked · 0%
+•  O5 – Demonstrate the trained detector using an interactive Streamlit image-upload and analysis prototype.
+
+23. No flagged match · Not checked · 0%
+•  O6 – In Semester IV, develop and evaluate a Mumbai-specific dataset, improve detection recall, and investigate geographic duplicate merging, explainable severity and repair priority with human verification. Research Questions
+
+24. No flagged match · Not checked · 0%
+RQ1: Which of the two trained YOLOv8 sizes performs better under the matched validation protocol? RQ2: What detection-error and throughput trade-offs are observed on the held-out public test set?
+
+25. No flagged match · Not checked · 0%
+RQ3 (future): Does locally adapted training improve pothole detection on independent Mumbai road images, including difficult weather and lighting conditions? Abstract
+
+26. No flagged match · Checked · 39.11%
+RoadWatch is a proposed AI-assisted pothole detection and repair-prioritisation platform intended exclusively for Mumbai roads. This Semester III investigation establishes its detection foundation through a controlled pilot experiment and an interactive prototype.
+Source: https://www.instagram.com/p/DgImkz5j0ZP/
+Search result: Anti-Narcotics Investigation and Forensic Van can screen people for drug consumption in around five minutes using saliva samples.
+
+27. No flagged match · Not checked · 0%
+A public road-image dataset was converted to a one-class YOLO detection format and audited using SHA-256 hashing. Of 819 source images, 84 duplicate copies were removed, resulting in 735 images and 1,906 pothole annotations.
+
+28. No flagged match · Not checked · 0%
+Two COCO-pretrained YOLOv8 variants, nano and small, were fine-tuned under identical documented settings: five epochs, 416 × 416 input resolution, batch size eight, CPU execution and seed 42.
+
+29. No flagged match · Not checked · 0%
+YOLOv8n was selected using validation mAP@0.5 (0.6268 versus 0.5837).
+
+30. No flagged match · Not checked · 0%
+On the 79-image held-out test split containing 203 labelled potholes, YOLOv8n achieved precision 0.6377, recall 0.4335, F1 0.5161, mAP@0.5 0.5367 and throughput 10.41 images/s.
+
+31. No flagged match · Not checked · 0%
+YOLOv8s yielded precision 0.5444, recall 0.4532, F1 0.4946, mAP@0.5 0.4945 and 5.75 images/s. Both detectors missed more than half the test annotations at the fixed operating threshold, demonstrating the need for further optimisation.
+
+32. No flagged match · Not checked · 0%
+A Streamlit prototype supports image inference and comparative analysis. Faster R-CNN and SSD are reviewed but were not trained.
+
+33. No flagged match · Not checked · 0%
+The current data are not verified as Mumbai-specific; therefore, the findings establish a public-data baseline rather than local effectiveness.
+
+34. No flagged match · Not checked · 0%
+Future research will use independently collected Mumbai imagery, evaluate robustness across road conditions, and develop location-based duplicate handling and human-validated severity and priority scoring. The system is not yet ready for operational municipal use.
+
+35. No flagged match · Not checked · 0%
+Keywords: Pothole detection; Mumbai; YOLOv8; transfer learning; data integrity; object detection; repair prioritisation; computer vision. Chapter 1: Introduction & Problem Formulation 1.1 Background & Mumbai Motivation
+
+36. No flagged match · Not checked · 0%
+Potholes are localised depressions in pavement that can affect road usability and vehicle safety. Mumbai is the sole intended geographical domain of RoadWatch.
+
+37. No flagged match · Not checked · 0%
+Monsoon rain, water accumulation, shadows, variable pavement appearance and dense traffic motivate a detector that is evaluated on local conditions rather than assumed to generalise from a public dataset.
+
+38. No flagged match · Not checked · 0%
+Image-based reporting offers a practical input mechanism, but an image alone does not establish physical depth or the urgency of a repair.
+
+39. No flagged match · Checked · 42.24%
+Computer vision can locate damage in photographs and provide bounding boxes that guide human review. Deep-learning methods learn visual patterns from labelled examples instead of relying only on hand-coded rules. RoadWatch uses this capability as the first step of an intended reporting workflow. 1.2 Problem Statement
+Source: https://pmc.ncbi.nlm.nih.gov/articles/PMC7983091/
+Search result: The ultimate goal of a semi-supervised learning model is to provide a better outcome for prediction than that produced using the labeled data alone from the ...
+
+40. No flagged match · Not checked · 0%
+A lightweight detector must identify visible potholes with useful recall and manageable false alarms under resource constraints. For Mumbai, a further challenge is whether a model trained on publicly available imagery generalises to local streets.
+
+41. No flagged match · Not checked · 0%
+Repeated reports may refer to the same physical pothole, while image perspective and water can obscure severity. The present study therefore tests two compact detectors on a common public benchmark before undertaking local adaptation and repair-ranking research.
+
+42. No flagged match · Not checked · 0%
+1.3 Significance and Scope of the Work
+
+43. No flagged match · Not checked · 0%
+•  Current scope: single-class image-based pothole detection, exact-duplicate audit, matched CPU experiment, error analysis and Streamlit demonstration.
+
+44. No flagged match · Not checked · 0%
+•  Future geographic scope: Mumbai municipal road locations only. Images from other regions may serve as pretraining sources, not evidence of Mumbai performance.
+
+45. No flagged match · Not checked · 0%
+•  Excluded: crack classification, other cities, autonomous repair decisions, certified depth measurement and live municipal deployment. Chapter 2: Literature Survey & Gap Analysis
+
+46. No flagged match · Not checked · 0%
+2.1 Literature Survey: Detailed Review of Prior Work
+
+47. No flagged match · Not checked · 0%
+Redmon et al. [1] introduced YOLO as a unified object-detection formulation that predicts classes and object locations directly. Its one-stage design motivates rapid inference, but the original YOLO paper is not a description of YOLOv8. Ren et al.
+
+48. No flagged match · Not checked · 0%
+[2] presented Faster R-CNN, in which a region proposal network generates candidate regions for further classification and refinement. Liu et al. [3] introduced SSD, a one-stage detector that makes predictions at multiple feature scales.
+
+49. No flagged match · Not checked · 0%
+These works establish alternative detector families; their original benchmark results cannot be compared directly with RoadWatch because the datasets and experimental conditions differ.
+
+50. No flagged match · Not checked · 0%
+Ultralytics [4] documents YOLOv8, including its anchor-free detection head and model-size variants. RoadWatch uses pretrained nano and small detection checkpoints for transfer learning. The choice of a compact detector reflects the CPU-only pilot constraint rather than a claim of global superiority.
+
+51. No flagged match · Not checked · 0%
+Maeda et al. [7] investigated road-damage detection using smartphone imagery and labelled damage instances, illustrating the feasibility of camera-based road inspection. The RDD2022 dataset paper by Arya et al.
+
+52. No flagged match · Checked · 42.46%
+[6] provides 47,420 road images from six countries, including India, and covers four damage categories. For RoadWatch, RDD2022 is a possible source for pothole-only transfer learning, but Indian imagery must not be equated with confirmed Mumbai observations.
+Source: https://rmets.onlinelibrary.wiley.com/doi/10.1002/gdj3.260
+Search result: following four damage categories—Longitudinal Cracks (D00), Transverse Cracks (D10), Alligator Cracks (D20), and Potholes (D40), were included ...
+
+53. No flagged match · Not checked · 0%
+A review of road imaging and pothole detection [8] discusses classical two-dimensional processing, 3-D point-cloud approaches, machine learning and hybrid systems. A later review [9] also identifies variations in road appearance and imaging conditions as challenges for reliable detection.
+
+54. No flagged match · Not checked · 0%
+These studies motivate condition-wise testing and caution against treating a two-dimensional bounding box as a physical severity measurement.
+
+55. No flagged match · Not checked · 0%
+The literature supports the technical direction but does not establish that RoadWatch is the first system to combine detection and mapping. Its proposed contribution is a locally evaluated, explainable workflow for Mumbai, supported by transparent experiments and human verification. 2.2 Literature Comparison Matrix & Research Gaps Study Method / objective Relevant finding Gap for this work [1] Redmon et al. (2016) YOLO, one-stage Unified localisation and classification Not a Mumbai pothole study [2] Ren et al. (2015) Faster R-CNN Region proposals and box refinement Not executed in this pilot [3] Liu et al. (2016) SSD Multi-scale single-stage predictions Not executed in this pilot [4] Ultralytics YOLOv8 documentation Anchor-free detector variants Not peer-reviewed benchmark evidence [6] Arya et al. (2024) RDD2022 dataset Multi-country road-damage images Mumbai provenance not established [7] Maeda et al. (2018) Smartphone road images Camera-based damage detection Local transfer needs validation [8] Road-imaging review (2022) 2-D, 3-D and ML methods Different sensing trade-offs Physical severity needs extra evidence [9] Sensors review (2024) Vision-based methods Robustness and sensing challenges Condition-wise Mumbai evaluation needed 2.3 Identified Research Gaps (G1–G5) Gap RoadWatch response / status G1. Split leakage
+
+56. No flagged match · Not checked · 0%
+Exact-image audit completed; perceptual duplicates remain a future audit. G2. Lightweight performance
+
+57. No flagged match · Not checked · 0%
+Matched nano/small pilot completed; full convergence and repeated trials pending. G3. Mumbai generalisation
+
+58. No flagged match · Not checked · 0%
+Local collection, route-wise test split and weather tags planned. G4. Detection misses Low recall measured; validation-only optimisation planned. G5. Actionable reporting
+
+59. No flagged match · Not checked · 0%
+GPS merging, severity agreement and priority validation planned.
+
+60. No flagged match · Not checked · 0%
+These are gaps in the present project and its target evaluation, not claims that no prior research has addressed them. Chapter 3: Research Design & Mathematical Framework 3.1 Existing Detection Approaches Approach Mechanism Strength / limitation Status YOLOv8n One-stage compact CNN Low compute; limited capacity Trained YOLOv8s One-stage larger CNN More capacity; higher compute Trained SSD Multi-scale one-stage detector Efficient; needs fair benchmark Review only Faster R-CNN Two-stage detector Proposal refinement; higher cost Review only 3-D / segmentation Geometry or pixel-level regions Better shape evidence; additional labels/sensors Future consideration 3.2 Dataset Discovery & Selection
+
+61. No flagged match · Not checked · 0%
+The selected pilot dataset is the Road Damage Dataset attributed to abdulmohsen-fahad on Roboflow Universe, mirrored as manot/pothole-segmentation on Hugging Face [5]. The dataset card reports CC BY 4.0.
+
+62. No flagged match · Not checked · 0%
+Despite the mirror name, the present task uses COCO bounding-box annotations converted to a one-class detection dataset. The source is not verified as Mumbai-specific. Field Description Dataset source https://huggingface.co/datasets/manot/pothole-segmentation Task One-class detection: class 0 = pothole Input Road photographs Labels
+
+63. No flagged match · Not checked · 0%
+COCO bounding boxes; converted to YOLO normalized coordinates Clean dataset
+
+64. No flagged match · Not checked · 0%
+735 images; 1,906 pothole boxes; 9 empty-label images RDD2022
+
+65. No flagged match · Not checked · 0%
+Future transfer-learning candidate; not used in current results 3.3 Dataset Preprocessing & Data Integrity Split Source images Source boxes Ignored object Removed images Clean images Clean boxes Empty Train 582 1499 3 75 507 1306 4 Val 157 405 2 8 149 397 3 Test 80 204 1 1 79 203 2 Total 819 2108 6 84 735 1906 9
+
+66. No flagged match · Not checked · 0%
+The preprocessing pipeline merges “pothole” and “potholes” into one category. Six generic “object” annotations were ignored rather than assumed to be potholes. Bounding boxes were clipped to image boundaries; no invalid boxes were skipped.
+
+67. No flagged match · Not checked · 0%
+SHA-256 hashing identified 84 exact-duplicate groups in total, including 40 groups crossing split boundaries. Keeping test copies before validation and training copies removed 84 repeated images and corresponding labels.
+
+68. No flagged match · Not checked · 0%
+The 84 groups and 84 removed images are different measures, as reported in the project brief. Bounding-Box Conversion
+
+69. No flagged match · Checked · 60.19%
+For a clipped COCO box [x, y, w, h] in an image with width W and height H, the YOLO label is class_id followed by the normalised centre coordinates and box dimensions.
+Source: https://supervisely.com/formats/yolo/
+Search result: A line starts with the class index, followed by coordinates normalized to 0–1 by the image width and height: x_center y_center width height for detection, a ...
+
+70. No flagged match · Not checked · 0%
+cx = (x + w/2) / W;  cy = (y + h/2) / H Eq. (1) Normalised box centre. bw = w/W;  bh = h/H Eq. (2) Normalised box width and height. Integrity and limitations
+
+71. No flagged match · Not checked · 0%
+Exact hashing prevents byte-identical images from appearing in more than one cleaned partition. It does not detect different encodings, resized versions, consecutive frames or photographs of the same physical pothole. A later perceptual-hash and location/route audit is needed.
+
+72. No flagged match · Not checked · 0%
+Only nine clean images contain no target annotation; this does not prove the absence of unlabelled damage and provides limited negative-scene coverage. 3.4 Experimental Protocol & Model Architecture Setting Value Models COCO-pretrained YOLOv8n.pt and YOLOv8s.pt Epochs / input size 5 / 416 × 416 Batch / device 8 / CPU; workers = 0 Seed / training flags 42; deterministic=True; patience=0 Augmentation Ultralytics defaults Fixed operating threshold Confidence ≥ 0.25; NMS IoU 0.70 Evaluation match
+
+73. No flagged match · Not checked · 0%
+One-to-one match at IoU ≥ 0.50 Selection rule Highest validation mAP@0.5 Model architecture
+
+74. No flagged match · Not checked · 0%
+YOLOv8 is a convolutional object detector. Its backbone extracts spatial features, the neck combines information across scales, and its anchor-free head predicts object locations and class scores [4]. Nano and small use related architectures at different capacities.
+
+75. No flagged match · Not checked · 0%
+Transfer learning starts from pretrained weights rather than random initialisation and adapts them to the pothole class. Stage Input → Output Backbone Image → learned feature maps Neck Multi-resolution features → fused features Detection head Fused features → candidate boxes and scores Post-processing Confidence filter and NMS → retained boxes
+
+76. No flagged match · Not checked · 0%
+Training is deliberately short and matched to isolate model-size behaviour in this pilot. Equal epoch counts do not establish equal convergence; the larger model may require additional training.
+
+77. No flagged match · Not checked · 0%
+Exact package versions, CPU model and complete optimiser settings should be recorded from the run logs before replication. 3.5 Evaluation Metrics & Mathematical Framework
+
+78. No flagged match · Not checked · 0%
+Predictions at confidence ≥ 0.25 are sorted by confidence and matched greedily to unmatched ground-truth boxes with IoU ≥ 0.50. A match is a true positive (TP); an unmatched prediction is a false positive (FP); an unmatched labelled pothole is a false negative (FN).
+
+79. No flagged match · Not checked · 0%
+NMS at IoU 0.70 is used for inference suppression and is distinct from the matching threshold.
+
+80. No flagged match · Not checked · 0%
+IoU = Area(prediction ∩ ground truth) / Area(prediction ∪ ground truth) Eq. (3) Intersection over Union. Precision = TP / (TP + FP)
+
+81. No flagged match · Checked · 48.82%
+Eq. (4) Fraction of predicted detections that match labels. Recall = TP / (TP + FN)
+Source: https://en.wikipedia.org/wiki/Precision_and_recall
+Search result: Precision (also called positive predictive value) is the fraction of relevant instances. Inverse Recall are simply the Precision and Recall of the inverse ...
+
+82. No flagged match · Not checked · 0%
+Eq. (5) Fraction of labelled potholes matched by predictions. F1 = 2 × Precision × Recall / (Precision + Recall)
+
+83. No flagged match · Not checked · 0%
+Eq. (6) Harmonic mean of precision and recall.
+
+84. No flagged match · Not checked · 0%
+mAP@0.5:0.95 = mean of AP at IoU thresholds 0.50, 0.55, …, 0.95 Eq. (7) Multi-threshold average precision.
+
+85. No flagged match · Not checked · 0%
+Average precision (AP) summarises the precision–recall curve at a given matching IoU; with one class, mAP equals AP for that class. mAP@0.5 uses IoU 0.50. Unlike fixed-threshold P/R/F1, these AP metrics aggregate ranked predictions over confidence operating points.
+
+86. No flagged match · Not checked · 0%
+Validation P/R in this study are Ultralytics curve-summary values, so they are not directly comparable to fixed-threshold test P/R.
+
+87. No flagged match · Not checked · 0%
+Throughput = Number of processed images / elapsed inference time (s)
+
+88. No flagged match · Not checked · 0%
+Eq. (8) Images per second; hardware- and implementation-specific. Chapter 4: Implementation & Experimental Results 4.1 Implementation Environment & Pipeline Component Choice / purpose Programming Python: data conversion, training, evaluation and reporting Deep learning Ultralytics YOLO: transfer learning and inference Image processing OpenCV: image handling and annotated visual output Interface Streamlit: interactive inference and result exploration Integrity SHA-256: exact-image fingerprint Data formats
+
+89. No flagged match · Not checked · 0%
+COCO JSON, YOLO TXT, YAML, JSON and CSV Compute
+
+90. No flagged match · Not checked · 0%
+Local CPU; no GPU used in Phase I Implemented workflow Stage Output / purpose 1. Download and parse Source road images and COCO annotations 2. Clean and convert
+
+91. No flagged match · Not checked · 0%
+One-class YOLO labels; split audit and YAML configuration 3. Fine-tune Two trained checkpoints and validation logs 4. Evaluate
+
+92. No flagged match · Not checked · 0%
+Validation scores, test scores, TP/FP/FN and inference time 5. Compare Comparison charts, metrics and selected detector 6. Demonstrate Streamlit upload → inference → boxes and analysis
+
+93. No flagged match · Not checked · 0%
+The end-to-end deployment vision adds geographic association, duplicate report merging, severity and repair-priority scoring, and an officer dashboard. Those steps have not been implemented or evaluated. The present prototype is a detector demonstration, not an operational reporting service. 4.2 Dataset Analysis & Validation Results
+
+94. No flagged match · Checked · 53.78%
+Fig. 4.1. Source and cleaned image counts by dataset split.
+Source: https://www.sciencedirect.com/science/article/pii/S1361841521003509
+Search result: By removing the duplicate images (overlap images between and within the test and training sets), we produced a cleaned (non-duplicate) dataset and a balanced ...
+
+95. No flagged match · Not checked · 0%
+The cleaned training partition contains 507 images and 1,306 boxes; validation contains 149 images and 397 boxes; the test partition contains 79 images and 203 boxes. The test set is comparatively small, limiting the strength of generalisation claims.
+
+96. No flagged match · Not checked · 0%
+No condition or geographic labels were available for a Mumbai-specific analysis. Model Val precision Val recall Val mAP@0.5 Val mAP@0.5:0.95 YOLOv8n 0.6334 0.6196 0.6268 0.3507 YOLOv8s 0.5882 0.5648 0.5837 0.2946
+
+97. No flagged match · Not checked · 0%
+YOLOv8n has the higher validation mAP@0.5 by 0.0431. Under the documented pre-declared selection rule it is chosen for the baseline prototype.
+
+98. No flagged match · Not checked · 0%
+The result reflects one short run per model and should not be interpreted as a statistically significant difference or a comparison against all detection architectures. 4.3 Held-Out Test Results Metric YOLOv8n YOLOv8s Precision (fixed threshold) 0.6377 0.5444 Recall (fixed threshold) 0.4335 0.4532 F1 (fixed threshold) 0.5161 0.4946 mAP@0.5 0.5367 0.4945 mAP@0.5:0.95 0.2814 0.2492 True positives 88 92 False positives 50 77 False negatives 115 111 Total predictions 138 169 CPU throughput (images/s) 10.41 5.75
+
+99. No flagged match · Not checked · 0%
+Fig. 4.2. Held-out test metrics. P/R/F1 use confidence 0.25; mAP uses ranked precision–recall curves.
+
+100. No flagged match · Not checked · 0%
+YOLOv8n gives the higher precision, F1 and both mAP metrics. YOLOv8s has slightly higher recall, matching four additional potholes at the cost of 27 additional false positives. The relative ranking is protocol-specific, not evidence of production readiness. 4.4 Error Analysis & Best-Method Selection
+
+101. No flagged match · Not checked · 0%
+Fig. 4.3. Matched, false-positive and missed boxes on the 203-label test set.
+
+102. No flagged match · Not checked · 0%
+Fig. 4.4. Test mAP@0.5 versus measured local CPU throughput.
+
+103. No flagged match · Not checked · 0%
+YOLOv8n matched 88 of 203 labels and missed 115 (56.7%). It is approximately 1.81 times faster than YOLOv8s on the measured CPU. It is the selected pilot model because of validation mAP, not because of test-set optimisation.
+
+104. No flagged match · Not checked · 0%
+More training may change the ranking; neither detector is currently reliable enough for unsupervised repair decisions. 4.5 Program Code & Reproducibility
+
+105. No flagged match · Not checked · 0%
+The following training call is reproduced from the existing RoadWatch report. It describes the implemented pilot settings; full project files and run logs should accompany the submission separately.
+
+106. No flagged match · Not checked · 0%
+model = YOLO(model_weights)model.train(data=str(dataset_yaml), epochs=epochs,    imgsz=imgsz, batch=8, device="cpu", workers=0,    seed=42, deterministic=True, patience=0,    project=str(RUNS_DIR), name=run_name,    exist_ok=False, plots=True, verbose=True) Documented Windows commands
+
+107. No flagged match · Checked · 43.58%
+python -m pip install -r requirements.txtpython scripts\roadwatch_baseline.py preparepython scripts\roadwatch_baseline.py train --model yolov8n.pt --epochs 5 --imgsz 416python scripts\roadwatch_baseline.py validate --model yolov8n.ptpython scripts\roadwatch_baseline.py train --model yolov8s.pt --epochs 5 --imgsz 416python scripts\roadwatch_baseline.py validate --model yolov8s.ptpython scripts\build_comparative_report.pypython -m streamlit run demo_app.py Project files and outputs File / artifact Role scripts/roadwatch_baseline.py Dataset preparation, training, evaluation and reports scripts/build_comparative_report.py Checks matched settings; comparison charts and report demo_app.py / RUN_DEMO.bat Interactive inference and analysis demonstration data/processed/roadwatch.yaml Dataset paths and class names reports/metrics*.json; model_comparison.csv Run settings and measured scores reports/test_error_analysis_*.csv Per-image TP/FP/FN records reports/predictions/; runs/
+Source: https://zread.ai/ostris/ai-toolkit/3-dataset-preparation
+Search result: This page walks you through every stage—from organizing raw files to generating captions and control images—so your dataset is ready to plug into a training...
+
+108. No flagged match · Not checked · 0%
+Overlays, logs, args.yaml and best.pt checkpoints 4.6 Working Prototype & Demonstration
+
+109. No flagged match · Not checked · 0%
+The documented Streamlit prototype loads trained YOLOv8n and YOLOv8s best.pt weights and offers three tabs: Detect Potholes, Analysis & Results, and About the Project. Users may upload road images or sample test images, change confidence and image size, inspect detections and see inference timing.
+
+110. No flagged match · Not checked · 0%
+The severity badge is a preliminary interface heuristic, not a validated physical measurement. Demonstration case What to show Expected behaviour (not test results) Clear pothole Upload image, select nano Display any predicted boxes and scores Multiple potholes Upload multi-object image Display count and retained boxes Difficult scene Inspect missed / false prediction Explain limitations honestly Threshold change Compare same image at two settings May change retained detections; no guarantee Analysis tab Show baseline charts and results Matches documented pilot values Current and planned architecture Phase I (implemented per project brief) Phase II (proposed only)
+
+111. No flagged match · Not checked · 0%
+Upload / sample image → YOLO → annotated output and analysis
+
+112. No flagged match · Not checked · 0%
+Mumbai image + location → detection → duplicate review → severity / priority → officer dashboard
+
+113. No flagged match · Not checked · 0%
+Actual application screenshots, model overlays and a run recording are recommended submission evidence. The attached source materials contain no verified live screenshots or raw prediction files; illustrative presentation mockups are not experimental outputs.
+
+114. No flagged match · Not checked · 0%
+Screenshot evidence to attach after running the prototype
+
+115. No flagged match · Not checked · 0%
+Add actual screenshots of: (a) detection tab with a successful prediction; (b) a failure case; (c) analysis tab with both models. Use the original image, ground-truth label if available, selected model, threshold and observed result in each caption. Chapter 5: Conclusion & Future Directions 5.1 Conclusion and Limitations
+
+116. No flagged match · Not checked · 0%
+The Semester III study establishes a reproducible one-class detection baseline using 735 cleaned images and 1,906 labelled potholes. The exact-duplicate audit addresses a practical risk of data leakage.
+
+117. No flagged match · Not checked · 0%
+Under the documented short CPU experiment, YOLOv8n achieves the stronger validation mAP@0.5 and is selected for the interactive prototype. It reaches 0.5367 test mAP@0.5 and 10.41 images/s, but its recall of 0.4335 highlights a substantial detection limitation.
+
+118. No flagged match · Not checked · 0%
+The completed contribution is a matched pilot comparison, documented data preparation and an inference demonstration. The proposed contribution is a locally evaluated Mumbai pothole reporting and priority workflow; novelty and usefulness must be demonstrated in Phase II rather than asserted in advance. Limitation Implication Five epochs; one seed No convergence or variability assessment 79 test images Limited precision of performance estimates Public data; unknown Mumbai provenance No local generalisation claim Only one detector family executed No cross-family superiority claim Exact hashes only Near-duplicates may remain Only nine empty-label images Weak negative-scene coverage No physical measurements or ratings Severity remains unvalidated Machine-specific throughput Not a hardware-normalised speed benchmark
+
+119. No flagged match · Checked · 45.03%
+A longer GPU experiment, route-disjoint Mumbai evaluation and transparent human verification are higher priorities than adding untested features.
+Source: https://vulcet.com/blog/human-check-captcha-alternative/
+Search result: Human Check explores whether a simple drag can contribute to human verification without CAPTCHA puzzles — and what pointer movement can ...
+
+120. No flagged match · Not checked · 0%
+5.2 Future Directions: Mumbai Dataset & Model Improvement
+
+121. No flagged match · Not checked · 0%
+Phase II will restrict field collection and final evaluation to Mumbai. A proposed collection plan is 500–1,000 safely captured images, subject to access and time. Record location, date, road segment, weather, lighting and surface conditions where lawful and feasible.
+
+122. No flagged match · Not checked · 0%
+Include pothole-free roads, manholes, patches, puddles and shadows as hard negatives; do not collect from unsafe traffic positions. Blur identifiable faces and number plates before sharing. Proposed step Evaluation / decision Local annotation
+
+123. No flagged match · Not checked · 0%
+Single pothole class; bounding boxes, condition tags and independent label review Leakage controls
+
+124. No flagged match · Not checked · 0%
+Group by route, physical pothole and capture session; audit near-duplicates before splitting External pretraining
+
+125. No flagged match · Not checked · 0%
+Consider RDD2022 D40 potholes; verify licence and provenance; not a Mumbai test set Longer training
+
+126. No flagged match · Not checked · 0%
+GPU, proposed 50 epochs with validation monitoring; compare 416 and 640 input sizes Threshold selection
+
+127. No flagged match · Not checked · 0%
+Validation precision–recall curve; select threshold for recall with a pre-set precision floor Benchmark
+
+128. No flagged match · Not checked · 0%
+YOLOv8n and YOLOv8s plus one cross-family model, e.g. Faster R-CNN, if compute permits Reliability
+
+129. No flagged match · Not checked · 0%
+At least three proposed seeds; mean/SD; paired image/route bootstrap confidence intervals Independent evaluation
+
+130. No flagged match · Not checked · 0%
+Freeze choices; report untouched Mumbai test metrics overall and by condition
+
+131. No flagged match · Not checked · 0%
+A provisional research target is to improve recall relative to the Phase I baseline while maintaining an agreed precision floor. The Mumbai baseline must first be measured on the same local test protocol; public and Mumbai numbers are not directly interchangeable. No performance improvement is claimed yet.
+
+132. No flagged match · Checked · 40.37%
+5.3 Future Directions: Geographic Reporting & Repair Priority
+Source: https://rosap.ntl.bts.gov/view/dot/14317
+Search result: The primary objective of the pothole experiment was to determine which combinations of materials and patching procedures provide the most cost-effective repair...
+
+133. No flagged match · Not checked · 0%
+The proposed Mumbai-only system will attach user-confirmed GPS coordinates and timestamps to detections, reject or flag reports outside the chosen Mumbai boundary, and merge candidate reports using spatial distance, time and visual similarity.
+
+134. No flagged match · Not checked · 0%
+Photo coordinates may represent the camera rather than the pothole; location uncertainty and nearby distinct potholes require human review. Module Proposed implementation and evaluation GPS and map
+
+135. No flagged match · Not checked · 0%
+Location metadata or user pin; geofencing; map review Duplicate merging
+
+136. No flagged match · Not checked · 0%
+Haversine distance plus visual similarity; evaluate pair precision/recall against known pothole identities Severity
+
+137. No flagged match · Not checked · 0%
+Use calibrated physical dimensions or independent assessor ratings where feasible; separate uncertainty from severity Repair ranking
+
+138. No flagged match · Not checked · 0%
+Combine assessed severity, road exposure and report age; validate ordering with independent human rankings Dashboard
+
+139. No flagged match · Not checked · 0%
+Proposed FastAPI, React/Leaflet, PostgreSQL; officer reviews evidence and updates repair status Privacy
+
+140. No flagged match · Not checked · 0%
+Consent, minimum location data, face/plate blurring, restricted access Candidate priority framework (not yet implemented)
+
+141. No flagged match · Not checked · 0%
+Priority = wS × S + wE × E + wA × A;  wS + wE + wA = 1
+
+142. No flagged match · Not checked · 0%
+Eq. (9) Proposed weighted score; non-negative weights and normalised inputs.
+
+143. No flagged match · Not checked · 0%
+S is independently assessed severity, E is road exposure and A is report age. Weights and thresholds will be set using validation or assessor feedback. Detection confidence determines review uncertainty, not physical severity. The ranking remains advisory; officials retain decision authority.
+
+144. No flagged match · Checked · 34.52%
+Deliverable sequence: local dataset → improved detector → spatial merging → severity/priority validation → dashboard integration and final Mumbai evaluation. References
+Source: https://www.merge.dev/features/integration-observability
+Search result: Integration Dashboards, customizable configuration, automated issue detection, logs, and more. Merge allows you to build and maintain integrations...
+
+145. No flagged match · Not checked · 0%
+[1] J. Redmon, S. Divvala, R. Girshick and A. Farhadi, “You Only Look Once: Unified, Real-Time Object Detection,” CVPR, 2016. https://arxiv.org/abs/1506.02640
+
+146. No flagged match · Not checked · 0%
+[2] S. Ren, K. He, R. Girshick and J. Sun, “Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks,” NeurIPS, 2015. https://arxiv.org/abs/1506.01497
+
+147. No flagged match · Not checked · 0%
+[3] W. Liu et al., “SSD: Single Shot MultiBox Detector,” ECCV, 2016. https://arxiv.org/abs/1512.02325
+
+148. No flagged match · Not checked · 0%
+[4] Ultralytics, “Explore Ultralytics YOLOv8,” software documentation. https://docs.ultralytics.com/models/yolov8/
+
+149. No flagged match · Not checked · 0%
+[5] abdulmohsen-fahad, Road Damage Dataset (Roboflow Universe), mirrored by manot on Hugging Face, “pothole-segmentation,” dataset card. https://huggingface.co/datasets/manot/pothole-segmentation
+
+150. No flagged match · Not checked · 0%
+[6] D. Arya et al., “RDD2022: A multi-national image dataset for automatic road damage detection,” Geoscience Data Journal, 2024. https://doi.org/10.1002/gdj3.260. Dataset: https://figshare.com/articles/dataset/21431547
+
+151. No flagged match · Not checked · 0%
+[7] H. Maeda et al., “Road Damage Detection and Classification Using Deep Neural Networks with Smartphone Images,” Computer-Aided Civil and Infrastructure Engineering, 2018. https://doi.org/10.1111/mice.12387
+
+152. No flagged match · Not checked · 0%
+[8] “Computer Vision for Road Imaging and Pothole Detection: A State-of-the-Art Review of Systems and Algorithms,” Transportation Safety and Environment, vol. 4, no. 4, 2022. https://doi.org/10.1093/tse/tdac026
+
+153. No flagged match · Not checked · 0%
+[9] “A Review of Vision-Based Pothole Detection Methods Using Computer Vision and Machine Learning,” Sensors, vol. 24, no. 17, art. 5652, 2024. https://doi.org/10.3390/s24175652
+
+154. No flagged match · Not checked · 0%
+Project evidence: RoadWatch_Master_Research_Brief_For_ChatGPT.md; RoadWatch_Research_Report.docx; RoadWatch_Presentation.pptx. Experimental numbers are reproduced from the project documentation, not independently rerun. Research Paper
+
+155. No flagged match · Not checked · 0%
+ROADWATCH: AI-ASSISTED POTHOLE DETECTION AND COMPARATIVE EVALUATION OF LIGHTWEIGHT DEEP LEARNING MODELS FOR MUMBAI ROAD REPAIR PRIORITISATION Neeraj Sonar
+
+156. No flagged match · Not checked · 0%
+(Department of Computer Science, K.C. College, HSNC University, Mumbai 400 020, India) Dr. Geeta N. Brijwani — Project Guide
+
+157. Potential match · Checked · 100%
+(Department of Computer Science, K.C. College, HSNC University, Mumbai 400 020, India) Abstract
+Source: https://metsrujan.com/index.php/description/article/view/15/15
+Search result: Menon(Department of Computer Science, K.C College, HSNC University, Mumbai 400 020, India)AbstractEducational institutions play a vital role in advancing ...
+
+158. No flagged match · Not checked · 0%
+Pothole detection using computer vision can assist road inspection by transforming citizen photographs into candidate damage reports. RoadWatch is a proposed Mumbai-specific pothole detection, severity assessment and repair-prioritisation system.
+
+159. No flagged match · Not checked · 0%
+This study establishes the detector-stage baseline through a controlled comparison of two COCO-pretrained YOLOv8 configurations. A public dataset of 819 road images was cleaned using annotation standardisation and SHA-256 exact-image deduplication, yielding 735 images and 1,906 pothole bounding boxes.
+
+160. No flagged match · Not checked · 0%
+Both detectors were fine-tuned for five epochs on CPU using identical data partitions, input resolution and batch size. YOLOv8n was selected by validation mAP@0.5 (0.6268 versus 0.5837).
+
+161. No flagged match · Not checked · 0%
+On 79 held-out images with 203 labelled potholes, YOLOv8n achieved precision 0.6377, recall 0.4335 (rounded), F1 0.5161 and mAP@0.5 0.5367 at 10.41 images/s.
+
+162. No flagged match · Not checked · 0%
+YOLOv8s achieved precision 0.5444, recall 0.4532, F1 0.4946 and mAP@0.5 0.4945 at 5.75 images/s. Both detectors missed over half of the labelled potholes at the fixed operating threshold.
+
+163. No flagged match · Not checked · 0%
+An interactive Streamlit prototype supports image inference and inspection of these results. The findings establish a preliminary baseline, not a validated Mumbai deployment; local data collection, recall improvement, geographic deduplication and human-validated severity assessment are proposed for subsequent research.
+
+164. No flagged match · Not checked · 0%
+Keywords: Pothole detection, road damage, YOLOv8, computer vision, data leakage, transfer learning, Mumbai, repair prioritisation. Introduction
+
+165. No flagged match · Not checked · 0%
+Potholes are a practical road-maintenance concern because road-surface damage may disrupt travel and create hazards. RoadWatch focuses exclusively on the municipal context of Mumbai, where an image-based reporting workflow could support human inspection and prioritisation.
+
+166. No flagged match · Not checked · 0%
+The present investigation addresses the first technical dependency: locating potholes in road photographs with a compact object detector.
+
+167. No flagged match · Not checked · 0%
+A pothole detection system differs from a conventional image classifier: a classifier provides an image-level category, whereas a detector must identify the position of each visible damage instance.
+
+168. No flagged match · Not checked · 0%
+A citizen photograph can contain several potholes, shadows, markings or unrelated objects, so detection requires both recognition and localisation. Conditions such as low light, wet surfaces, water-filled depressions and camera viewpoint can complicate visual interpretation.
+
+169. No flagged match · Not checked · 0%
+These conditions motivate Mumbai-specific testing but were not annotated in the current public dataset.
+
+170. No flagged match · Checked · 42.67%
+An operational reporting system also requires more than a detector. Different photographs of the same physical pothole may create duplicate reports, while the apparent size of a pothole changes with camera distance and perspective.
+Source: https://www.facebook.com/groups/749054859923980/posts/791056845723781/
+Search result: When photographing a pothole, after being safe, the most important thing is to show the size of the hole within the photo. Perhaps take a couple ...
+
+171. No flagged match · Not checked · 0%
+A high-confidence detection therefore does not establish physical severity or repair urgency. The RoadWatch architecture separates visual evidence from geographic association, damage assessment and municipal decision support. Only the first stage has been evaluated in this semester.
+
+172. No flagged match · Not checked · 0%
+The research question is whether a compact YOLOv8n configuration or a higher-capacity YOLOv8s configuration produces a stronger validation detection score when trained with the same short CPU protocol, and what trade-off is observed in held-out recall, false alarms and processing throughput.
+
+173. No flagged match · Not checked · 0%
+The experiment does not claim to identify the best detector across all architectures or establish generalisation to Mumbai roads.
+
+174. No flagged match · Not checked · 0%
+For a predicted bounding box Bp and a ground-truth box Bg, localisation agreement is quantified using Intersection over Union (IoU). A prediction is eligible for a correct match only when the overlap satisfies the chosen criterion:
+
+175. No flagged match · Not checked · 0%
+IoU(Bp, Bg) = Area(Bp ∩ Bg) / Area(Bp ∪ Bg)
+
+176. No flagged match · Not checked · 0%
+(1) Intersection over Union for bounding-box overlap. Literature Review
+
+177. No flagged match · Not checked · 0%
+Redmon et al. [1] introduced the YOLO formulation, in which detection is performed through a unified network rather than a separate region-proposal stage. The one-stage approach provides a useful foundation for applications in which processing time matters.
+
+178. No flagged match · Not checked · 0%
+RoadWatch uses the later YOLOv8 implementation documented by Ultralytics [4], not the original YOLO architecture. The Nano and Small variants allow model capacity to be compared without changing the underlying detector family.
+
+179. No flagged match · Not checked · 0%
+Ren et al. [2] proposed Faster R-CNN, which uses a Region Proposal Network followed by region classification and box refinement. Liu et al. [3] proposed SSD, a one-stage detector predicting boxes across multiple feature-map scales. These methods provide relevant architectural alternatives.
+
+180. No flagged match · Not checked · 0%
+They are reviewed as literature baselines only: neither was trained or assigned experimental scores in the present work.
+
+181. No flagged match · Not checked · 0%
+Road-damage-specific research provides a closer context than general-purpose object detection. Maeda et al. [7] investigated the detection and classification of road damage from smartphone images, motivating accessible image capture as an alternative source of inspection evidence. Arya et al.
+
+182. No flagged match · Checked · 41.71%
+[6] introduced RDD2022, a multi-national road-damage dataset that includes Indian imagery. Its availability motivates an India-oriented transfer-learning study, but an Indian subset cannot automatically be treated as a verified Mumbai test set.
+Source: https://www.mdpi.com/2072-4292/13/12/2392
+Search result: In this study, we investigated the capability of Sentinel-2 (S2) image and metadata, topography data, and canopy height model (CHM), as well as ...
+
+183. No flagged match · Not checked · 0%
+Reviews of computer vision for road imaging and pothole detection [8], [9] provide broader context for the limitations of visual detection and the range of existing approaches. They motivate the distinction between detecting visible damage and estimating its physical geometry.
+
+184. No flagged match · Not checked · 0%
+The present study does not compare numerical results reported by unrelated papers because differences in datasets, annotation policies, image sizes and hardware would make a direct ranking misleading.
+
+185. No flagged match · Not checked · 0%
+The project addresses four specific research needs: (1) auditing exact-image duplicates across partitions before training; (2) comparing two lightweight detector scales under a matched protocol; (3) reporting missed detections and false alarms alongside aggregate AP and throughput; and (4) establishing a pathway toward an independently evaluated Mumbai-only reporting workflow.
+
+186. No flagged match · Not checked · 0%
+The first three are implemented in the pilot, while the fourth remains a proposed research direction. These are project-specific contributions, not claims that the underlying techniques are novel. METHODOLOGY 3.1 Data Collection and Preprocessing
+
+187. No flagged match · Not checked · 0%
+The pilot uses a publicly accessible Road Damage Dataset originally attributed to abdulmohsen-fahad on Roboflow Universe and mirrored as manot/pothole-segmentation on Hugging Face [5]. The dataset card states a CC BY 4.0 licence.
+
+188. No flagged match · Not checked · 0%
+Despite the mirror name, this experiment uses COCO bounding-box annotations for single-class object detection. Source labels “pothole” and “potholes” are unified; six generic “object” annotations are excluded rather than assumed to be potholes.
+
+189. No flagged match · Not checked · 0%
+TABLE 1 Description of the Public Pothole Dataset Before and After Cleaning Partition Source images Clean images Clean boxes Duplicates removed Training 582 507 1,306 75 Validation 157 149 397 8 Testing 80 79 203 1 Total 819 735 1,906 84
+
+190. No flagged match · Not checked · 0%
+The cleaned dataset contains nine images without retained pothole annotations (four training, three validation and two test). The test partition is held apart from model-configuration selection. Its small size and unknown geographic composition limit the interpretation of the results.
+
+191. No flagged match · Not checked · 0%
+COCO annotations describe a bounding box using its top-left position and width and height. After clipping coordinates to the image boundaries, the preprocessing pipeline converts boxes to YOLO normalised centre coordinates.
+
+192. No flagged match · Not checked · 0%
+For a clipped box (x, y, w, h) in an image of width W and height H, the transformation is:
+
+193. No flagged match · Not checked · 0%
+cx = (x + w/2)/W;  cy = (y + h/2)/H;  bw = w/W;  bh = h/H (2) COCO-to-YOLO bounding-box normalisation.
+
+194. No flagged match · Not checked · 0%
+Each annotation is written with class identifier 0 and the four normalised values. No invalid boxes were skipped in the documented run. The same cleaned files are used for both detectors. This preserves a common evaluation basis and avoids silently relabelling ambiguous generic annotations.
+
+195. No flagged match · Not checked · 0%
+SHA-256 hashing is applied to the image bytes before training. The audit identifies 84 exact-duplicate groups, including 40 groups crossing split boundaries.
+
+196. No flagged match · Not checked · 0%
+For duplicate images, the test copy is retained first, followed by validation and training; lower-priority copies and their labels are removed. A total of 84 duplicate images were removed.
+
+197. No flagged match · Not checked · 0%
+This addresses byte-identical leakage, but does not detect near-duplicate images produced by compression, resizing, cropping or sequential capture.
+
+198. No flagged match · Not checked · 0%
+3.2 Transfer Learning and Controlled YOLOv8 Experimental Design
+
+199. No flagged match · Checked · 41.38%
+Both configurations begin with COCO-pretrained weights, permitting the models to reuse learned visual features rather than training all parameters from random initialisation. YOLOv8n is the smaller model and YOLOv8s provides more capacity.
+Source: https://medium.com/mlearning-ai/do-randomly-initialized-network-parameters-generalize-better-than-pre-trained-ones-80a649a23cd9
+Search result: As training from random initialization might lead to slower learning of parameters, a yet another way of examining the performance of warm ...
+
+200. No flagged match · Not checked · 0%
+The model family uses a convolutional feature extractor, multi-scale feature aggregation and a detection head to predict object locations and confidence. The study compares the provided Ultralytics implementations rather than proposing a new neural architecture. TABLE 2 Matched Training and Evaluation Configuration Setting Value Pretrained configurations YOLOv8n.pt and YOLOv8s.pt Training epochs; image size 5; 416 × 416 pixels Batch; compute; workers 8; CPU; 0 Random seed; deterministic 42; enabled Augmentation; patience Ultralytics defaults; 0 Fixed confidence; matching IoU 0.25; at least 0.50 NMS IoU; selection metric 0.70; validation mAP@0.5
+
+201. No flagged match · Not checked · 0%
+The settings control obvious experimental differences, but a five-epoch budget does not guarantee that both models reach convergence. The comparison is therefore a matched short-run pilot, not a comparison of fully optimised architectures.
+
+202. No flagged match · Not checked · 0%
+3.3 Object Detection Techniques and Performance Evaluation
+
+203. No flagged match · Not checked · 0%
+The validation split is used to select the preferred model configuration. The documented rule selects the model with the highest validation mAP@0.5, leaving the test data for final reporting.
+
+204. No flagged match · Not checked · 0%
+To evaluate errors at a specific operating point, predictions are filtered at confidence 0.25 and matched in descending confidence order to at most one unmatched ground-truth box with IoU at least 0.50.
+
+205. No flagged match · Not checked · 0%
+A matched box is a true positive (TP), an unmatched prediction is a false positive (FP), and an unmatched labelled pothole is a false negative (FN). Non-maximum suppression (NMS) removes redundant overlapping predictions before this matching step.
+
+206. No flagged match · Not checked · 0%
+Precision = TP / (TP + FP);     Recall = TP / (TP + FN)
+
+207. No flagged match · Not checked · 0%
+(3) Precision and recall at a fixed operating threshold. F1 = 2 × Precision × Recall / (Precision + Recall) (4) Harmonic mean of precision and recall.
+
+208. No flagged match · Not checked · 0%
+Average precision (AP) summarises the ranked precision–recall curve. Because the dataset has one class, mean AP equals the AP of the pothole class.
+
+209. No flagged match · Not checked · 0%
+mAP@0.5 measures detection performance at an IoU of 0.50; mAP@0.5:0.95 averages AP over ten IoU thresholds from 0.50 to 0.95. These are distinct from P/R/F1 calculated using the single confidence threshold of 0.25.
+
+210. No flagged match · Not checked · 0%
+mAP@0.5:0.95 = (1/10) Σ AP(0.50 + 0.05k),  k = 0,…,9
+
+211. No flagged match · Not checked · 0%
+(5) AP averaged over progressively stricter overlap criteria.
+
+212. No flagged match · Checked · 57.89%
+Throughput = Number of evaluated images / Elapsed inference time (seconds) (6) Measured CPU image processing throughput.
+Source: https://www.sciencedirect.com/science/article/pii/S2772485925000626
+Search result: LLMEvaluator, a framework that profiles quantized. CPU-only environments. 𝑇 l o c a l is the inference time in seconds.
+
+213. No flagged match · Not checked · 0%
+Validation precision and recall are Ultralytics curve-summary metrics; test precision and recall are obtained from fixed-threshold matching. They are not directly comparable as a before-and-after pair.
+
+214. No flagged match · Not checked · 0%
+Speed is reported on the local CPU under the documented inference measurement, not as a general hardware-normalised benchmark. IMPLEMENTATION
+
+215. No flagged match · Not checked · 0%
+The Python script scripts/roadwatch_baseline.py handles dataset preparation, training, validation, test inference and report export. It creates the YOLO dataset configuration, records experiment settings and generates per-image error CSVs and prediction overlays.
+
+216. No flagged match · Not checked · 0%
+The script scripts/build_comparative_report.py checks matched settings and generates the model comparison tables and graphs.
+
+217. No flagged match · Not checked · 0%
+The Streamlit application demo_app.py uses Ultralytics and OpenCV to load trained best.pt checkpoints, upload or sample road images, adjust confidence and image size, and display detections, inference time and comparative results.
+
+218. No flagged match · Not checked · 0%
+Its LOW/MEDIUM/HIGH severity indicator is an unvalidated UI heuristic, not a physical measurement. RESULTS
+
+219. No flagged match · Not checked · 0%
+The cleaned data partition was shared across both experimental configurations. Figure 1 shows the reduction from 819 source images to 735 unique retained images.
+
+220. No flagged match · Not checked · 0%
+The training partition contains 507 images and 1,306 boxes; validation contains 149 images and 397 boxes; testing contains 79 images and 203 boxes.
+
+221. No flagged match · Not checked · 0%
+This distribution permits a pilot comparison, but does not provide enough evidence to infer performance under Mumbai monsoon or night-time conditions.
+
+222. No flagged match · Not checked · 0%
+FIGURE 1 Source and cleaned image counts by dataset split. TABLE 3 Validation Performance and Model Selection Model Precision Recall mAP@0.5 mAP@0.5:0.95 YOLOv8n 0.6334 0.6196 0.6268 0.3507 YOLOv8s 0.5882 0.5648 0.5837 0.2946
+
+223. No flagged match · Not checked · 0%
+YOLOv8n exceeds YOLOv8s by 0.0431 on validation mAP@0.5 and is therefore selected using the pre-declared criterion. The Nano model also scores higher on validation mAP@0.5:0.95.
+
+224. No flagged match · Not checked · 0%
+These values concern one training run per model and should not be interpreted as statistically significant differences. A larger model may require more training, but that hypothesis has not yet been tested.
+
+225. No flagged match · Checked · 37.71%
+For the held-out test images, both checkpoints are evaluated independently of the selection rule. The fixed-threshold counts permit direct inspection of missed potholes and false detections, while the AP values describe the ranked detection performance across confidence levels.
+Source: https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-125-1523
+Search result: (d) Knowingly makes a false or misleading written statement, or knowingly omits required information or a statement in an inspection report, application ...
+
+226. No flagged match · Not checked · 0%
+This distinction is important because a threshold may alter the operational balance between false alarms and misses without changing the trained model.
+
+227. No flagged match · Not checked · 0%
+TABLE 4 Final Performance Comparison on the Held-Out Test Split Metric YOLOv8n YOLOv8s Precision (fixed threshold) 0.6377 0.5444 Recall (fixed threshold) 0.4335 0.4532 F1 score (fixed threshold) 0.5161 0.4946 mAP@0.5 0.5367 0.4945 mAP@0.5:0.95 0.2814 0.2492 CPU throughput (images/s) 10.41 5.75
+
+228. No flagged match · Not checked · 0%
+FIGURE 2 Held-out detection metrics (P/R/F1 at confidence 0.25; AP across ranked predictions).
+
+229. No flagged match · Not checked · 0%
+Table 4 and Figure 2 show that the selected Nano model has higher precision, F1 and both AP measures. The Small model has a slightly higher recall, so it cannot be described as inferior on every metric.
+
+230. No flagged match · Not checked · 0%
+On this fixed operating point, YOLOv8n matches 88 of 203 labelled potholes, whereas YOLOv8s matches 92. The four additional detections are accompanied by 27 additional false alarms, indicating a trade-off between finding more potholes and generating extra candidate reports.
+
+231. No flagged match · Not checked · 0%
+For YOLOv8n, precision is 88/138 and recall is 88/203. For YOLOv8s, the corresponding ratios are 92/169 and 92/203. These counts independently reproduce the fixed-threshold metrics to rounding precision. The F1 scores follow from Equation (4).
+
+232. No flagged match · Not checked · 0%
+The AP values, however, cannot be reconstructed from a single confusion-count summary; they require the ranked predictions generated during evaluation.
+
+233. No flagged match · Not checked · 0%
+TABLE 5 Error Counts on 203 Labelled Test Potholes Metric YOLOv8n YOLOv8s True positives 88 92 False positives 50 77 False negatives 115 111 Total predicted boxes 138 169
+
+234. No flagged match · Not checked · 0%
+FIGURE 3 Matched detections, false positives and missed potholes at the fixed threshold.
+
+235. No flagged match · Not checked · 0%
+FIGURE 4 Test mAP@0.5 versus measured CPU inference throughput.
+
+236. No flagged match · Not checked · 0%
+Figure 3 exposes the main weakness: YOLOv8n misses 115 of 203 labelled potholes (56.7%), while YOLOv8s misses 111 (54.7%). Figure 4 shows that Nano is approximately 1.81 times faster on the measured CPU.
+
+237. No flagged match · Checked · 46.45%
+The test results support its use as a preliminary demonstration model but not an unsupervised road-maintenance decision system. The small test set, single random seed, short training schedule and residual near-duplicate risk prevent strong generalisation or statistical superiority claims. CONCLUSION AND FUTURE WORK
+Source: https://www.researchgate.net/publication/403419161_Large_language_models_enable_intelligent_decision-making_for_pavement_maintenance
+Search result: training set, while the Decision Task set corresponds to the test set. The white vehicle in Fig. 3(c) represents a road condition detection.
+
+238. No flagged match · Not checked · 0%
+This study establishes a documented baseline for RoadWatch through a shared, cleaned public dataset, matched YOLOv8n and YOLOv8s experiments, explicit validation-based selection and fixed-threshold error analysis.
+
+239. No flagged match · Not checked · 0%
+YOLOv8n is the preferred pilot configuration, with validation mAP@0.5 of 0.6268, test mAP@0.5 of 0.5367 and measured CPU throughput of 10.41 images/s. Its limited recall is the principal research problem identified by the experiment.
+
+240. No flagged match · Not checked · 0%
+The Streamlit prototype demonstrates the detector stage; geographic reporting and repair prioritisation have not yet been validated.
+
+241. No flagged match · Not checked · 0%
+The next phase will restrict the final application and local evaluation to Mumbai. Safely collected road photographs will be labelled by pothole instance, road segment, lighting and weather, with negative examples and explicit treatment of water-filled or ambiguous damage.
+
+242. No flagged match · Not checked · 0%
+Route- or segment-disjoint partitions and near-duplicate checks will reduce leakage. RDD2022 may be used for additional transfer learning, but a separate Mumbai test set will remain untouched during optimisation.
+
+243. No flagged match · Not checked · 0%
+Longer GPU training, multiple random seeds, validation-only confidence selection and a cross-family comparison will examine recall improvement without unacceptable false alarms. Results will be reported by condition and with uncertainty where supported.
+
+244. No flagged match · Not checked · 0%
+The planned reporting pipeline will associate user-confirmed coordinates and time with candidate potholes, merge geographically and visually similar reports, and rank verified damage using explainable factors.
+
+245. No flagged match · Not checked · 0%
+A proposed priority function combines independently assessed severity, road exposure and report age using non-negative weights summing to one. Confidence indicates detection uncertainty, not depth or danger. Human assessment and, where feasible, measured physical dimensions will be required to validate severity.
+
+246. No flagged match · Not checked · 0%
+A municipal dashboard will present Mumbai-only candidate reports for human review and repair tracking. These modules remain proposed work and no performance or municipal adoption claims are made. ACKNOWLEDGMENT
+
+247. No flagged match · Not checked · 0%
+I would like to thank my project guide, Dr. Geeta N. Brijwani, for her guidance throughout this investigation and the Department of Computer Science, K.C. College, HSNC University, Mumbai, for its academic support. References
+
+248. No flagged match · Not checked · 0%
+[1] J. Redmon, S. Divvala, R. Girshick and A. Farhadi, “You Only Look Once: Unified, Real-Time Object Detection,” CVPR, 2016. https://arxiv.org/abs/1506.02640
+
+249. No flagged match · Not checked · 0%
+[2] S. Ren, K. He, R. Girshick and J. Sun, “Faster R-CNN: Towards Real-Time Object Detection with Region Proposal Networks,” NeurIPS, 2015. https://arxiv.org/abs/1506.01497
+
+250. No flagged match · Not checked · 0%
+[3] W. Liu et al., “SSD: Single Shot MultiBox Detector,” ECCV, 2016. https://arxiv.org/abs/1512.02325
+
+251. No flagged match · Not checked · 0%
+[4] Ultralytics, “Explore Ultralytics YOLOv8,” software documentation. https://docs.ultralytics.com/models/yolov8/
+
+252. No flagged match · Not checked · 0%
+[5] abdulmohsen-fahad, Road Damage Dataset (Roboflow Universe), mirrored by manot on Hugging Face, “pothole-segmentation,” dataset card. https://huggingface.co/datasets/manot/pothole-segmentation
+
+253. No flagged match · Not checked · 0%
+[6] D. Arya et al., “RDD2022: A multi-national image dataset for automatic road damage detection,” Geoscience Data Journal, 2024. https://doi.org/10.1002/gdj3.260. Dataset: https://figshare.com/articles/dataset/21431547
+
+254. No flagged match · Not checked · 0%
+[7] H. Maeda et al., “Road Damage Detection and Classification Using Deep Neural Networks with Smartphone Images,” Computer-Aided Civil and Infrastructure Engineering, 2018. https://doi.org/10.1111/mice.12387
+
+255. No flagged match · Not checked · 0%
+[8] “Computer Vision for Road Imaging and Pothole Detection: A State-of-the-Art Review of Systems and Algorithms,” Transportation Safety and Environment, vol. 4, no. 4, 2022. https://doi.org/10.1093/tse/tdac026
+
+256. No flagged match · Not checked · 0%
+[9] “A Review of Vision-Based Pothole Detection Methods Using Computer Vision and Machine Learning,” Sensors, vol. 24, no. 17, art. 5652, 2024. https://doi.org/10.3390/s24175652 Plagiarism Report
+
+257. No flagged match · Not checked · 0%
+Similarity-check report to be appended after the final document is reviewed and processed through the institution-approved plagiarism-checking service.
+
+258. No flagged match · Checked · 42.86%
+No similarity percentage, certificate or approval is claimed in this report. Replace this page with the actual report generated by the authorised service before final submission, if required by the department.
+Source: https://www.ipcc.ch/assessment-report/ar6/
+Search result: IPCC produced the Sixth Assessment Report (AR6) with contributions by its three Working Groups and a Synthesis Report, three Special Reports, and a refinement ...

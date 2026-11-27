@@ -1,0 +1,31 @@
+# Virtual environment & Python cache
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Dataset (reproducible via: python scripts/roadwatch_baseline.py prepare)
+data/
+
+# Base pretrained weights (auto-downloaded by Ultralytics)
+/yolov8n.pt
+/yolov8s.pt
+
+# Ignore training run artifacts except the two final trained best.pt checkpoints needed by app.py
+runs/*
+!runs/roadwatch-yolov8n-20261114-004822/
+runs/roadwatch-yolov8n-20261114-004822/*
+!runs/roadwatch-yolov8n-20261114-004822/weights/
+runs/roadwatch-yolov8n-20261114-004822/weights/*
+!runs/roadwatch-yolov8n-20261114-004822/weights/best.pt
+
+!runs/roadwatch-yolov8s-20261114-114035/
+runs/roadwatch-yolov8s-20261114-114035/*
+!runs/roadwatch-yolov8s-20261114-114035/weights/
+runs/roadwatch-yolov8s-20261114-114035/weights/*
+!runs/roadwatch-yolov8s-20261114-114035/weights/best.pt
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
